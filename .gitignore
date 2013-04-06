@@ -4,17 +4,15 @@
 /web-app/WEB-INF
 
 # IDE support files
-/.classpath
 /.launch
-/.project
-/.settings
 /*.launch
 /*.tmproj
 /ivy*
 /eclipse
 
-# default HSQL database files for production mode
+# HSQL database files
 /prodDb.*
+/devDb.*
 
 # general HSQL database files
 *Db.properties

@@ -105,8 +105,6 @@ EditPage.prototype.insertWebLink = function()
 };
 
 
-var editPage = new EditPage('bodyField');
-
 
 $('#linkDialog-tabs a').click(function(e) {
 	e.preventDefault();

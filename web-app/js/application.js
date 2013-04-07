@@ -12,67 +12,74 @@
 
 $.fn.extend({
 	insertAtCaret : function(myValue) {
-		var obj;
-		if (typeof this[0].name != 'undefined')
-			obj = this[0];
-		else
-			obj = this;
-
+		var elem = this[0];
+		if (elem == null) return;
+		
 		if ($.browser.msie) {
-			obj.focus();
+			elem.focus();
 			sel = document.selection.createRange();
 			sel.text = myValue;
-			obj.focus();
+			elem.focus();
 		} else if ($.browser.mozilla || $.browser.webkit) {
-			var startPos = obj.selectionStart;
-			var endPos = obj.selectionEnd;
-			var scrollTop = obj.scrollTop;
-			obj.value = obj.value.substring(0, startPos) + myValue
-					+ obj.value.substring(endPos, obj.value.length);
-			obj.focus();
-			obj.selectionStart = startPos + myValue.length;
-			obj.selectionEnd = startPos + myValue.length;
-			obj.scrollTop = scrollTop;
+			var startPos = elem.selectionStart;
+			var endPos = elem.selectionEnd;
+			var scrollTop = elem.scrollTop;
+			elem.value = elem.value.substring(0, startPos) + myValue
+					+ elem.value.substring(endPos, elem.value.length);
+			elem.focus();
+			elem.selectionStart = startPos + myValue.length;
+			elem.selectionEnd = startPos + myValue.length;
+			elem.scrollTop = scrollTop;
 		} else {
-			obj.value += myValue;
-			obj.focus();
+			elem.value += myValue;
+			elem.focus();
 		}
 	},
 	
-	setCaretPosition : function(x) {
-		var obj;
-		if (typeof this[0].name != 'undefined')
-			obj = this[0];
-		else
-			obj = this;
+	encloseBy : function(left, right) {
+		var elem = this[0];
+		if (elem == null) return;
 
-		if (obj.createTextRange) {
-            var range = obj.createTextRange();
+		if (elem.setRangeText) {
+			var startPos = elem.selectionStart;
+			var endPos = elem.selectionEnd;
+			var selection = elem.value.substring(startPos, endPos);
+
+			elem.setRangeText(left + selection + right);
+			if (startPos == endPos) {
+				elem.setSelectionRange(startPos + left.length, startPos + left.length);
+			}
+		}		
+	},
+	
+	setCaretPosition : function(x) {
+		var elem = this[0];
+		if (elem == null) return;
+
+		if (elem.createTextRange) {
+            var range = elem.createTextRange();
             range.move('character', x);
             range.select();
         } else {
-            if (obj.selectionStart) {
-                obj.focus();
-                obj.setSelectionRange(x, x);
+            if (elem.selectionStart) {
+            	elem.focus();
+                elem.setSelectionRange(x, x);
+            } else {
+            	elem.focus();
             }
-            else
-                obj.focus();
         }
 	},
 	
 	getCaretPosition : function(x) {
-		var obj;
-		if (typeof this[0].name != 'undefined')
-			obj = this[0];
-		else
-			obj = this;
+		var elem = this[0];
+		if (elem == null) return;
 
-		if (obj.createTextRange) {
-//            var range = obj.createTextRange();
+		if (elem.createTextRange) {
+//            var range = elem.createTextRange();
 //            range.move('character', x);
 //            range.select();
         } else {
-         	return obj.selectionStart;
+         	return elem.selectionStart;
         }
 	}
 });

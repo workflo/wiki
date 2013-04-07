@@ -26,63 +26,45 @@ EditPage.prototype._init = function()
             $('#linkDialog-inputLinkTitle').val('');
             $('#linkDialog').modal({});
     	}
-    	//console.log(ev)
     });
+  	
+  	$('#' + this.bodyId + '-btnH1').click(function() {
+  		jqBody.insertAtCaret('# ');
+  	});
+  	
+  	$('#' + this.bodyId + '-btnH2').click(function() {
+  		jqBody.insertAtCaret('## ');
+  	});
+  	
+  	$('#' + this.bodyId + '-btnH3').click(function() {
+  		jqBody.insertAtCaret('### ');
+  	});
+  	
+  	$('#' + this.bodyId + '-btnBold').click(function() {
+  		jqBody.encloseBy('**', '**');
+  	});
+  	
+  	$('#' + this.bodyId + '-btnItalic').click(function() {
+  		jqBody.encloseBy('*', '*');
+  	});
+  	
+  	$('#' + this.bodyId + '-btnQuote').click(function() {
+  		jqBody.insertAtCaret('> ');
+  	});
+
+  	$('#' + this.bodyId + '-btnList').click(function() {
+  		jqBody.insertAtCaret('* ');
+  	});
+
+  	$('#' + this.bodyId + '-btnNumberedList').click(function() {
+  		jqBody.insertAtCaret('1. ');
+  	});
+
 };
 
 EditPage.prototype.insertInternalLink = function(id, title)
 {
 	this.jqBody.insertAtCaret('[' + title + '](' + id + ')');
-};
-
-
-EditPage.prototype.insertH1 = function()
-{
-	this.jqBody.insertAtCaret('# ');
-};
-
-
-EditPage.prototype.insertH2 = function()
-{
-	this.jqBody.insertAtCaret('## ');
-};
-
-
-EditPage.prototype.insertH3 = function()
-{
-	this.jqBody.insertAtCaret('### ');
-};
-
-
-EditPage.prototype.insertBold = function()
-{
-	this.jqBody.insertAtCaret('****');
-	this.jqBody.setCaretPosition(this.jqBody.getCaretPosition() -2);
-};
-
-
-EditPage.prototype.insertItalic = function()
-{
-	this.jqBody.insertAtCaret('**');
-	this.jqBody.setCaretPosition(this.jqBody.getCaretPosition() -1);
-};
-
-
-EditPage.prototype.insertQuote = function()
-{
-	this.jqBody.insertAtCaret('> ');
-};
-
-
-EditPage.prototype.insertList = function()
-{
-	this.jqBody.insertAtCaret('* ');
-};
-
-
-EditPage.prototype.insertNumberedList = function()
-{
-	this.jqBody.insertAtCaret('1. ');
 };
 
 
@@ -104,6 +86,7 @@ EditPage.prototype.insertWebLink = function()
 	return false;
 };
 
+var editPage = new EditPage("bodyField");
 
 
 $('#linkDialog-tabs a').click(function(e) {

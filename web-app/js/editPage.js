@@ -34,7 +34,57 @@ EditPage.prototype.insertInternalLink = function(id, title)
 {
 	this.jqBody.insertAtCaret('[' + title + '](' + id + ')');
 };
-	
+
+
+EditPage.prototype.insertH1 = function()
+{
+	this.jqBody.insertAtCaret('# ');
+};
+
+
+EditPage.prototype.insertH2 = function()
+{
+	this.jqBody.insertAtCaret('## ');
+};
+
+
+EditPage.prototype.insertH3 = function()
+{
+	this.jqBody.insertAtCaret('### ');
+};
+
+
+EditPage.prototype.insertBold = function()
+{
+	this.jqBody.insertAtCaret('****');
+	this.jqBody.setCaretPosition(this.jqBody.getCaretPosition() -2);
+};
+
+
+EditPage.prototype.insertItalic = function()
+{
+	this.jqBody.insertAtCaret('**');
+	this.jqBody.setCaretPosition(this.jqBody.getCaretPosition() -1);
+};
+
+
+EditPage.prototype.insertQuote = function()
+{
+	this.jqBody.insertAtCaret('> ');
+};
+
+
+EditPage.prototype.insertList = function()
+{
+	this.jqBody.insertAtCaret('* ');
+};
+
+
+EditPage.prototype.insertNumberedList = function()
+{
+	this.jqBody.insertAtCaret('1. ');
+};
+
 
 EditPage.prototype.insertWebLink = function()
 {

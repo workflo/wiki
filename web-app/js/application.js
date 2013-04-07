@@ -37,5 +37,42 @@ $.fn.extend({
 			obj.value += myValue;
 			obj.focus();
 		}
+	},
+	
+	setCaretPosition : function(x) {
+		var obj;
+		if (typeof this[0].name != 'undefined')
+			obj = this[0];
+		else
+			obj = this;
+
+		if (obj.createTextRange) {
+            var range = obj.createTextRange();
+            range.move('character', x);
+            range.select();
+        } else {
+            if (obj.selectionStart) {
+                obj.focus();
+                obj.setSelectionRange(x, x);
+            }
+            else
+                obj.focus();
+        }
+	},
+	
+	getCaretPosition : function(x) {
+		var obj;
+		if (typeof this[0].name != 'undefined')
+			obj = this[0];
+		else
+			obj = this;
+
+		if (obj.createTextRange) {
+//            var range = obj.createTextRange();
+//            range.move('character', x);
+//            range.select();
+        } else {
+         	return obj.selectionStart;
+        }
 	}
 });

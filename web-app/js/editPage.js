@@ -7,6 +7,7 @@ function EditPage(bodyId)
 
 EditPage.prototype._init = function()
 {
+	var self = this;
 	var jqBody = this.jqBody;
 	
     $('#linkDialog').on('shown', function () {
@@ -19,12 +20,7 @@ EditPage.prototype._init = function()
   	jQuery('body').keypress(function (ev) {
     	if (ev.which == 91) {
             ev.preventDefault();
-            
-            $('#linkDialog-searchField').val('');
-            $('#linkDialog-inputLinkUrl').val('');
-            $('#linkDialog-inputLinkText').val('');
-            $('#linkDialog-inputLinkTitle').val('');
-            $('#linkDialog').modal({});
+            self.openLinkDialog();
     	}
     });
   	
@@ -60,7 +56,23 @@ EditPage.prototype._init = function()
   		jqBody.insertAtCaret('1. ');
   	});
 
+  	$('#' + this.bodyId + '-btnLink').click(function() {
+  		self.openLinkDialog();
+  	});
+
 };
+
+
+EditPage.prototype.openLinkDialog = function()
+{
+
+    $('#linkDialog-searchField').val('');
+    $('#linkDialog-inputLinkUrl').val('');
+    $('#linkDialog-inputLinkText').val('');
+    $('#linkDialog-inputLinkTitle').val('');
+    $('#linkDialog').modal({});
+};
+
 
 EditPage.prototype.insertInternalLink = function(id, title)
 {

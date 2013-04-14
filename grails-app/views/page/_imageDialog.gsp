@@ -5,13 +5,43 @@
         <h3>Bild einfügen</h3>
     </div>
     <div class="modal-body">
-            <div class="tab-pane" style="height: 300px;">
-                <uploadr:add name="fileupload" params="[page_id: pageInstance?.id]" controller="wikiUpload" action="handle" viewable="false" downloadable="false" deletable="false" direction="up" maxVisible="999" maxSize="33554432">
-                    <uploadr:onSuccess>
-                        callback(); 
-                    </uploadr:onSuccess>
-                </uploadr:add>
+    
+        <div class="image-selector">
+        
+            <uploadr:add name="fileupload" params="[page_id: pageInstance?.id]" controller="wikiUpload" action="handle" viewable="false" downloadable="false" deletable="false" direction="up" maxVisible="999" maxSize="33554432">
+                <uploadr:onSuccess>
+                    callback(); 
+                </uploadr:onSuccess>
+            </uploadr:add>
+            
+            <div class="image">
+                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
             </div>
+            <div class="image">
+                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
+            </div>
+            <div class="image">
+                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
+            </div>
+            <div class="image">
+                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
+            </div>
+            <div class="image">
+                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
+            </div>
+            <div class="image">
+                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
+            </div>
+            <div class="image">
+                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
+            </div>
+            <div class="image">
+                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
+            </div>
+        
+        </div>
+    
+    
     </div>
 </div>
 

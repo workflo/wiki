@@ -120,10 +120,15 @@ class Page
             outStream.close()
         }
         
-        final Attachment a = new Attachment(name: name, file: relFilename, title: "", mimeType: mimeType)
-        addToAttachments(a)
+        Attachment a = getAttachment(name)
+        if (a) {
+            a.file = relFilename
+            a.mimeType = mimeType
+        } else {
+            a = new Attachment(name: name, file: relFilename, title: "", mimeType: mimeType)
+            addToAttachments(a)
+        }
 
         return a        
-        // FIXME; Name muss eindeutig sein!
     }
 }

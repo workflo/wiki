@@ -9,6 +9,8 @@ class AttachmentController {
             if (a) {
                 response.contentType = a.mimeType
                 final File file = a.getFileObject()
+                
+                // TODO: If-Modified-Since auswerten und ggf. 304 senden!
                 response.addHeader('Content-Length', Long.toString(file.length()))
                 response.addDateHeader('Last-Modified', file.lastModified())
                 response.outputStream << new FileInputStream(file)

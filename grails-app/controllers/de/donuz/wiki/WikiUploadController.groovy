@@ -16,9 +16,9 @@ class WikiUploadController {
         def fileSize = request.getHeader('X-File-Size') as Long
         def name = URLDecoder.decode(request.getHeader('X-Uploadr-Name'), 'UTF-8') as String
         def info        = session.getAttribute('uploadr')
+        
+        Page.lock(params.page_id)
         Page pageInstance = Page.get(params.page_id)
-        int status = 0
-        def statusText = ""
 
         // set response content type to json
         response.contentType = 'application/json'

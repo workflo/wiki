@@ -1,5 +1,6 @@
 package de.donuz.wiki
 
+import grails.plugins.springsecurity.Secured
 import grails.converters.JSON
 import hungry.wombat.*;
 
@@ -10,6 +11,7 @@ class WikiUploadController {
         render(plugin: 'uploadr', template: '/upload/warning')
     }
 
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def handle = {
         def contentType = request.getHeader("Content-Type") as String
         def fileName = URLDecoder.decode(request.getHeader('X-File-Name'), 'UTF-8') as String
@@ -19,6 +21,7 @@ class WikiUploadController {
         
         Page.lock(params.page_id)
         Page pageInstance = Page.get(params.page_id)
+        def prevVersion = pageInstance.version
 
         // set response content type to json
         response.contentType = 'application/json'
@@ -47,6 +50,7 @@ class WikiUploadController {
 
         // render json response
         response.setStatus(200)
-        render([written: true, fileName: fileName, message: "'${fileName}' upload successful!"] as JSON)
+        render([written: true, fileName: fileName, message: "'${fileName}' upload successful!",
+            prevVersion: prevVersion, newVersion: pageInstance.version] as JSON)
     }
 }

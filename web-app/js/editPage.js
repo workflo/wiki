@@ -60,17 +60,25 @@ EditPage.prototype._init = function()
   		self.openLinkDialog();
   	});
 
+  	$('#' + this.bodyId + '-btnImage').click(function() {
+  		self.openImageDialog();
+  	});
 };
 
 
 EditPage.prototype.openLinkDialog = function()
 {
-
     $('#linkDialog-searchField').val('');
     $('#linkDialog-inputLinkUrl').val('');
     $('#linkDialog-inputLinkText').val('');
     $('#linkDialog-inputLinkTitle').val('');
     $('#linkDialog').modal({});
+};
+
+
+EditPage.prototype.openImageDialog = function()
+{
+    $('#imageDialog').modal({});
 };
 
 

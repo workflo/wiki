@@ -84,6 +84,7 @@ class PageController {
 
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def update(Long id, Long version) {
+        Page.lock(id)
         Page pageInstance = Page.get(id)
         if (!pageInstance) {
             flash.message = message(code: 'default.not.found.message', args: [

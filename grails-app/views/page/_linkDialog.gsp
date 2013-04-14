@@ -8,7 +8,6 @@
         <ul class="nav nav-tabs" id="linkDialog-tabs">
             <li class="active"><a href="#linkDialogTabInternal">Wikiseite</a></li>
             <li><a href="#linkDialogTabWeb">Weblink</a></li>
-            <li><a href="#linkDialogImage">Bild</a></li>
         </ul>
 
         <div class="tab-content">
@@ -41,14 +40,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
-            <div class="tab-pane" id="linkDialogImage" style="height: 300px;">
-                <uploadr:add name="fileupload" params="[page_id: pageInstance?.id]" controller="wikiUpload" action="handle" viewable="false" downloadable="false" deletable="false" direction="up" maxVisible="999" maxSize="33554432">
-                    <uploadr:onSuccess>
-                        console.log(file);
-                        callback(); 
-                    </uploadr:onSuccess>
-                </uploadr:add>
             </div>
         </div>
     </div>

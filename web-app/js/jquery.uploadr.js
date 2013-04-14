@@ -563,9 +563,6 @@
 					// callback after failure
 					options.onFailure(fileAttrs, domObj);
 
-					// delete file if this was an error
-					if (status != "abort") options.onDelete(fileAttrs, domObj);
-
 					return;
 				}
 			};

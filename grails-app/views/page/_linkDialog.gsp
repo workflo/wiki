@@ -43,7 +43,7 @@
                 </form>
             </div>
             <div class="tab-pane" id="linkDialogImage" style="height: 300px;">
-                <uploadr:add name="fileupload" params="[page_id: pageInstance?.id]" controller="wikiUpload" action="handle" viewable="false" downloadable="false" deletable="false" direction="up" maxVisible="999" maxSize="2048000">
+                <uploadr:add name="fileupload" params="[page_id: pageInstance?.id]" controller="wikiUpload" action="handle" viewable="false" downloadable="false" deletable="false" direction="up" maxVisible="999" maxSize="33554432">
                     <uploadr:onSuccess>
                         console.log(file);
                         callback(); 

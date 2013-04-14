@@ -1,25 +1,30 @@
 package de.donuz.wiki
 
 import java.sql.Blob
+import java.text.*;
 
-class Attachment
-{
-    String filename
+class Attachment {
+    /** Filename of uploaded file. Unique within a Page. */
+    String name
+
+    /** Filename where the actual blob is stored relative to data directory. */
+    String file
+
+    /** Optional title. */
     String title
+
+    /** Mime-Type */
     String mimeType
-    byte[] content
-    
+
     static constraints = {
-        filename(blank:false)
+        name(blank:false)
+        file(blank:false)
         title(blank: true)
-        content(blank: true)
         mimeType(blank: true)
-        content(maxSize: 1024 * 1024 * 10)
     }
-    
+
     static mapping = {
-//        content type: 'blob'
     }
-    
-    static belongsTo = [page: Page]    
+
+    static belongsTo = [page: Page]
 }

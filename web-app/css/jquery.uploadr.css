@@ -26,18 +26,13 @@
 
 .uploadr {
 	font: 12px normal Arial, Helvetica, sans-serif;
-	
-	float: left;
-	width: 120px;
-	height: 120px;
-	padding: 5px;
-	margin: 5px;
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
 }
 
 .uploadr .placeholder {
 	color: #abc;
-	width: 120px;
-	height: 120px;
 	vertical-align: middle;
 	text-align: center;
 	z-index: 0;
@@ -95,6 +90,12 @@
 .uploadr .files {
 	z-index: 1;
 	box-shadow: 0 0 20px #CCCCCC;
+	
+	float: left;
+	width: 120px;
+	height: 116px;
+	padding: 5px;
+	margin: 5px;
 }
 
 .uploadr .file {

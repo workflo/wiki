@@ -38,4 +38,10 @@ class Attachment {
         final File attachmentDir = new File(dataDir, "attachments")
         return new File(attachmentDir, file)
     }
+    
+    
+    boolean isImage()
+    {
+        mimeType.startsWith('image/')
+    }
 }

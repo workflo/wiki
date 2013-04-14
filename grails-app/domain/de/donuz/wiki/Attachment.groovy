@@ -4,6 +4,9 @@ import java.sql.Blob
 import java.text.*;
 
 class Attachment {
+    def grailsApplication
+    
+    
     /** Filename of uploaded file. Unique within a Page. */
     String name
 
@@ -27,4 +30,12 @@ class Attachment {
     }
 
     static belongsTo = [page: Page]
+    
+    
+    File getFileObject()
+    {        
+        final File dataDir = new File(grailsApplication.config.wiki.dataDir)
+        final File attachmentDir = new File(dataDir, "attachments")
+        return new File(attachmentDir, file)
+    }
 }

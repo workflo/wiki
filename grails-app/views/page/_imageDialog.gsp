@@ -8,6 +8,9 @@
     
         <div class="image-selector">
         
+            <!-- TODO: Max. Groesse aus Konfig; Typen einschraenken -->
+        
+        
             <uploadr:add name="fileupload" params="[page_id: pageInstance?.id]" controller="wikiUpload" action="handle" viewable="false" downloadable="false" deletable="false" direction="up" maxVisible="999" maxSize="33554432">
                 <uploadr:onSuccess>
                     callback();

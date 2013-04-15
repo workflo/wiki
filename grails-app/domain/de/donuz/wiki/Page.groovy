@@ -128,6 +128,9 @@ class Page
         try {
             while (true) {
                 int amountRead = inStream.read(buffer);
+                
+                // TODO: Groesse beschraenken!
+                
                 if (amountRead == -1) {
                     break
                 }

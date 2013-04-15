@@ -10,7 +10,8 @@
         
             <uploadr:add name="fileupload" params="[page_id: pageInstance?.id]" controller="wikiUpload" action="handle" viewable="false" downloadable="false" deletable="false" direction="up" maxVisible="999" maxSize="33554432">
                 <uploadr:onSuccess>
-                    callback(); 
+                    callback();
+                    editPage.reloadImageGallery(); 
                 </uploadr:onSuccess>
             </uploadr:add>
             
@@ -22,7 +23,7 @@
 
 <script language="JavaScript">
 (function() {
-    var editPage = new EditPage("${pageInstance?.id}", "bodyField", {
+    editPage = new EditPage("${pageInstance?.id}", "bodyField", {
     	imageGalleryUrl: "${createLink(controller: 'attachment', action: 'imageGallery')}"
     });
     editPage.init();

@@ -28,5 +28,13 @@ textarea {
 	padding: 5px;
 	margin: 5px;
 	cursor: pointer;
+	background-image: url(../images/spinner.gif);
+	background-repeat: no-repeat;
+	background-position: 55px 55px;
+	vertical-align: middle;
+	text-align: center;
 }
 
+.image-selector .image img {
+	border: 0px;
+}

@@ -95,16 +95,16 @@ class PageController {
             return
         }
 
-        if (version != null) {
-            if (pageInstance.version > version) {
-                pageInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                        [
-                            message(code: 'page.label', default: 'Page')] as Object[],
-                        "Another user has updated this Page while you were editing")
-                render(view: "edit", model: [pageInstance: pageInstance])
-                return
-            }
-        }
+//        if (version != null) {
+//            if (pageInstance.version > version) {
+//                pageInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+//                        [
+//                            message(code: 'page.label', default: 'Page')] as Object[],
+//                        "Another user has updated this Page while you were editing")
+//                render(view: "edit", model: [pageInstance: pageInstance])
+//                return
+//            }
+//        }
 
         pageInstance.title = params.title
         pageInstance.body = params.body

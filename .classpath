@@ -273,5 +273,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.grails.ide.eclipse.core.CLASSPATH_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/thumbnailator-0.4.3.jar"/>
 	<classpathentry kind="output" path="target/eclipseclasses"/>
 </classpath>

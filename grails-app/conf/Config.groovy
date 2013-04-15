@@ -61,6 +61,14 @@ grails.hibernate.cache.queries = false
 
 wiki {
     dataDir = 'data'
+    thumbnails {
+        dimensions {
+            '120x120' {
+                width = 120
+                height = 120
+            }
+        }
+    }
 }
 
 environments {

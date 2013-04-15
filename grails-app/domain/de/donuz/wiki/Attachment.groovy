@@ -1,11 +1,11 @@
 package de.donuz.wiki
 
-import java.sql.Blob
-import java.text.*;
+import net.coobird.thumbnailator.Thumbnails
+
+import java.text.*
 
 class Attachment {
     def grailsApplication
-    
     
     /** Filename of uploaded file. Unique within a Page. */
     String name
@@ -32,11 +32,35 @@ class Attachment {
     static belongsTo = [page: Page]
     
     
-    File getFileObject()
+    File getFileObject(String sizeName)
     {        
         final File dataDir = new File(grailsApplication.config.wiki.dataDir)
         final File attachmentDir = new File(dataDir, "attachments")
-        return new File(attachmentDir, file)
+        final File origFile = new File(attachmentDir, file)
+        
+        if (isImage() && sizeName) {
+            def size = grailsApplication.config.wiki.thumbnails.dimensions[sizeName]
+            
+            if (size) {
+                final File thumbnailFile = new File(attachmentDir, file + '_' + sizeName)
+                
+                if (!thumbnailFile.isFile()) {
+                    final File tmpFile = File.createTempFile('tmp-', name)
+                    Thumbnails.of(origFile)
+                            .size(size.width, size.height)
+                            .toFile(tmpFile);
+                
+                    tmpFile.renameTo(thumbnailFile)
+                }
+                
+                return thumbnailFile
+                
+            } else {
+                return null
+            }            
+        } else {
+            return origFile
+        }
     }
     
     

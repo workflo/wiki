@@ -95,6 +95,11 @@ class PageController {
             return
         }
 
+        // TODO: Richtige Konfliktaufloesung:
+        // Titel nur uebernehmen, wenn wirklich geaendert
+        // Attachments einzeln hinzufuegen (und damit bestehende ueberschreiben)
+        // Body mergen
+        
 //        if (version != null) {
 //            if (pageInstance.version > version) {
 //                pageInstance.errors.rejectValue("version", "default.optimistic.locking.failure",

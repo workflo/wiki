@@ -45,6 +45,7 @@ class Attachment {
                 final File thumbnailFile = new File(attachmentDir, file + '_' + sizeName)
                 
                 if (!thumbnailFile.isFile()) {
+                    // TODO: In Service umwandeln!
                     final File tmpFile = File.createTempFile('tmp-', name)
                     Thumbnails.of(origFile)
                             .size(size.width, size.height)

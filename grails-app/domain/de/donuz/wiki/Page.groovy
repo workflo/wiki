@@ -14,6 +14,9 @@ class Page
     Date lastUpdated
     Person creator
     
+    // boolean isWorkingCopy
+    // Page originalPage
+    
     // FIXME: Permissions
     //String readers
     //String writers
@@ -76,6 +79,17 @@ class Page
             if (a.name.equals(filename)) return a
         }
         return null
+    }
+    
+    List<Attachment> getImages()
+    {
+        final List<Attachment> list = new ArrayList<Attachment>(attachments.size())
+        
+        for (final Attachment a : attachments) {
+            if (a.isImage()) list.add(a)
+        }
+        
+        return list;
     }
     
     static Collection<Page> getTopLevelPages()

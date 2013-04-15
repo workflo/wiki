@@ -8,15 +8,11 @@
 </head>
 <body>
     <div id="show-page" class="content scaffold-show" role="main">
-        <h1>${pageInstance?.title.encodeAsHTML()}</h1>
-
-
         <g:if test="${flash.message}">
-            <bootstrap:alert class="alert-info">
-                    ${flash.message}
-                </bootstrap:alert>
+            <div class="alert alert-info" role="status">${flash.message}</div>
         </g:if>
 
+        <h1>${pageInstance?.title.encodeAsHTML()}</h1>
         <g:if test="${pageInstance?.body}">
             <div class="markdown">
                 <markdown:renderHtml text="${pageInstance?.body}"/>

@@ -4,7 +4,7 @@ modules = {
     }
     
     editPage {
-        resource url: 'js/editPage.js'
+        resource url: 'js/editPage.js', disposition: 'head'
     }
     
     uploadr {

@@ -23,4 +23,16 @@ class AttachmentController {
             return false
         }
     }
+    
+    
+    def imageGallery = {
+        Page pageInstance = Page.get(params.pageId)
+                
+        if (pageInstance != null) {
+            [pageInstance: pageInstance, images: pageInstance.getImages()]
+        } else {
+            response.sendError(404, "Page ${params.pageId}")
+            return false
+        }
+    }
 }

@@ -14,36 +14,17 @@
                 </uploadr:onSuccess>
             </uploadr:add>
             
-            <div class="image">
-                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
+            <div id="imageDialog-gallery">
             </div>
-            <div class="image">
-                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
-            </div>
-            <div class="image">
-                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
-            </div>
-            <div class="image">
-                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
-            </div>
-            <div class="image">
-                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
-            </div>
-            <div class="image">
-                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
-            </div>
-            <div class="image">
-                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
-            </div>
-            <div class="image">
-                <img src="${createLink(uri: '/images/grails_logo.png')}"/>
-            </div>
-        
         </div>
-    
-    
     </div>
 </div>
 
 <script language="JavaScript">
+(function() {
+    var editPage = new EditPage("${pageInstance?.id}", "bodyField", {
+    	imageGalleryUrl: "${createLink(controller: 'attachment', action: 'imageGallery')}"
+    });
+    editPage.init();
+})();
 </script>

@@ -27,4 +27,6 @@ textarea {
 	height: 120px;
 	padding: 5px;
 	margin: 5px;
+	cursor: pointer;
 }
+

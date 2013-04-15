@@ -1,11 +1,12 @@
-function EditPage(bodyId)
+function EditPage(pageId, bodyId, options)
 {
+	this.pageId = pageId;
     this.bodyId = bodyId;
     this.jqBody = $('#' + bodyId);
-    this._init();
+    this.options = options;
 };
 
-EditPage.prototype._init = function()
+EditPage.prototype.init = function()
 {
 	var self = this;
 	var jqBody = this.jqBody;
@@ -78,7 +79,14 @@ EditPage.prototype.openLinkDialog = function()
 
 EditPage.prototype.openImageDialog = function()
 {
+	this.reloadImageGallery();
     $('#imageDialog').modal({});
+};
+
+
+EditPage.prototype.reloadImageGallery = function()
+{
+	$('#imageDialog-gallery').load(this.options.imageGalleryUrl, {pageId: this.pageId});
 };
 
 
@@ -105,8 +113,6 @@ EditPage.prototype.insertWebLink = function()
 	
 	return false;
 };
-
-var editPage = new EditPage("bodyField");
 
 
 $('#linkDialog-tabs a').click(function(e) {

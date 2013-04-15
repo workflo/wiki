@@ -86,7 +86,17 @@ EditPage.prototype.openImageDialog = function()
 
 EditPage.prototype.reloadImageGallery = function()
 {
-	$('#imageDialog-gallery').load(this.options.imageGalleryUrl, {pageId: this.pageId});
+	var self = this;
+	
+	$('#imageDialog-gallery').load(this.options.imageGalleryUrl, {pageId: this.pageId}, function() {
+		$('#imageDialog-gallery .image').each(function(index, el) {
+			var name = el.getAttribute('data-image-name');
+			$(el).click(function() {
+				self.jqBody.insertAtCaret('![' + name + '](' + self.pageId + '/' + name + ')');		
+				$('#imageDialog').modal('hide');
+			});
+		});
+	});
 };
 
 

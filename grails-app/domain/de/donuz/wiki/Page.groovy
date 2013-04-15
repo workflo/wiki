@@ -100,6 +100,7 @@ class Page
 
     Attachment createAttachment(String name, String contentType, InputStream inStream) 
     {
+        final String origName = name
         final File dataDir = new File(grailsApplication.config.wiki.dataDir)
         final File attachmentDir = new File(dataDir, "attachments")
         final DateFormat FORMAT = new SimpleDateFormat("yyyy${File.separator}MM${File.separator}dd")
@@ -108,6 +109,8 @@ class Page
         final File todaysDir = new File(attachmentDir, relFilename)
         final File file = new File(todaysDir, uuid)
         relFilename += "${File.separator}${uuid}"
+        
+        name = makeValidAttachmentName(name)        
         
         String mimeType = contentType?:''
         int pos = mimeType.indexOf(';')
@@ -139,10 +142,16 @@ class Page
             a.file = relFilename
             a.mimeType = mimeType
         } else {
-            a = new Attachment(name: name, file: relFilename, title: "", mimeType: mimeType)
+            a = new Attachment(name: name, file: relFilename, title: origName, mimeType: mimeType)
             addToAttachments(a)
         }
 
         return a        
+    }
+    
+    
+    static String makeValidAttachmentName(String orig)
+    {
+        orig.replaceAll("[^a-zA-Z0-9.-_+]", '_')
     }
 }

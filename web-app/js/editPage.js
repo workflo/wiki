@@ -25,15 +25,15 @@ EditPage.prototype._init = function()
     });
   	
   	$('#' + this.bodyId + '-btnH1').click(function() {
-  		jqBody.insertAtCaret('# ');
+  		jqBody.encloseBy('# ', '');
   	});
   	
   	$('#' + this.bodyId + '-btnH2').click(function() {
-  		jqBody.insertAtCaret('## ');
+  		jqBody.encloseBy('## ', '');
   	});
   	
   	$('#' + this.bodyId + '-btnH3').click(function() {
-  		jqBody.insertAtCaret('### ');
+  		jqBody.encloseBy('### ', '');
   	});
   	
   	$('#' + this.bodyId + '-btnBold').click(function() {
@@ -45,15 +45,15 @@ EditPage.prototype._init = function()
   	});
   	
   	$('#' + this.bodyId + '-btnQuote').click(function() {
-  		jqBody.insertAtCaret('> ');
+  		jqBody.encloseBy('> ', '');
   	});
 
   	$('#' + this.bodyId + '-btnList').click(function() {
-  		jqBody.insertAtCaret('* ');
+  		jqBody.encloseBy('* ', '');
   	});
 
   	$('#' + this.bodyId + '-btnNumberedList').click(function() {
-  		jqBody.insertAtCaret('1. ');
+  		jqBody.encloseBy('1. ', '');
   	});
 
   	$('#' + this.bodyId + '-btnLink').click(function() {

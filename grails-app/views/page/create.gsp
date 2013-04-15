@@ -34,6 +34,7 @@
             </fieldset>
         </g:form>
         <g:render template="linkDialog" />
+        <g:render template="imageDialog" />
     </div>    
 </body>
 </html>

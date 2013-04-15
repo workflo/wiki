@@ -18,3 +18,13 @@
 textarea {
 	font-family: Courier;
 }
+
+
+.image-selector .image {
+	float: left;
+	border: 1px solid black;
+	width: 120px;
+	height: 120px;
+	padding: 5px;
+	margin: 5px;
+}

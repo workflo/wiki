@@ -19,6 +19,9 @@ class Attachment {
     /** Mime-Type */
     String mimeType
 
+    /** Creation / Upload date */
+    Date dateCreated
+    
     static constraints = {
         name(blank:false)
         file(blank:false)

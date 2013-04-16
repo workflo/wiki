@@ -67,7 +67,7 @@ class PageController {
         [pageInstance: pageInstance]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(["hasRole('ROLE_USER')"])
     def edit(Long id) {
         def pageInstance = Page.get(id)
         if (!pageInstance) {

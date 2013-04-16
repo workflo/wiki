@@ -113,6 +113,7 @@ grails.plugins.springsecurity.rememberMe.persistentToken.domainClassName = 'de.d
 grails.plugins.springsecurity.rememberMe.tokenValiditySeconds = 1209600 // 14 days
 grails.plugins.springsecurity.rememberMe.cookieName = 'WIKI_REMEMBER_ME'
 grails.plugins.springsecurity.rememberMe.useSecureCookie = true
+grails.plugins.springsecurity.rememberMe.key = "SecretSaltForWikiRememberMeCookies"
 
 grails.plugins.springsecurity.roleHierarchy = '''
    ROLE_ADMIN > ROLE_USER

@@ -93,7 +93,7 @@ EditPage.prototype.reloadImageGallery = function()
 	var self = this;
 	
 	$('#imageDialog-gallery').load(this.options.imageGalleryUrl, {pageId: this.pageId}, function() {
-		$('#imageDialog-gallery .image').each(function(index, el) {
+		$('#imageDialog-gallery .entry').each(function(index, el) {
 			var name = el.getAttribute('data-image-name');
 			$(el).click(function() {
 				self.jqBody.insertAtCaret('![' + name + '](' + self.pageId + '/' + name + ')');		

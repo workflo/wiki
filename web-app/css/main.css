@@ -20,11 +20,11 @@ textarea {
 }
 
 
-.image-selector .image {
+.image-selector .entry {
 	float: left;
 	border: 1px solid black;
-	width: 120px;
-	height: 120px;
+	width: 140px;
+	height: 140px;
 	padding: 5px;
 	margin: 5px;
 	cursor: pointer;
@@ -35,6 +35,13 @@ textarea {
 	text-align: center;
 }
 
-.image-selector .image img {
-	border: 0px;
+.image-selector .entry .image-name {
+	text-align: center;
+	white-space: nowrap;
+	overflow-x: hidden;
+}
+
+.image-selector .image {
+	width: 140px;
+	height: 120px;
 }

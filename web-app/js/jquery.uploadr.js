@@ -113,13 +113,9 @@
 			var fileButtonDiv = document.createElement('div');
 				fileButtonDiv.setAttribute('class', 'buttons');
 
-			var votingDiv = document.createElement('div');
-				votingDiv.setAttribute('class', 'voting');
-
 			var controlsDiv = document.createElement('div');
 				controlsDiv.setAttribute('class', 'controls');
 				controlsDiv.appendChild(fileButtonDiv);
-				controlsDiv.appendChild(votingDiv);
 
 			var spinnerDiv = document.createElement('div');
 				spinnerDiv.setAttribute('class', 'spinner');
@@ -140,9 +136,6 @@
 				filePercentageDiv.setAttribute('class', 'percentage');
 				filePercentageDiv.innerHTML = ((showPercentage) ? '0%' : options.labelDone);
 
-			var ratingDiv = document.createElement('div');
-				ratingDiv.setAttribute('class', 'rating');
-
 			var fileSpeedDiv = document.createElement('div');
 				fileSpeedDiv.setAttribute('class', 'speed');
 
@@ -157,7 +150,6 @@
 			detailsDiv.appendChild(fileSizeDiv);
 			detailsDiv.appendChild(filePercentageDiv);
 			detailsDiv.appendChild(fileSpeedDiv);
-			detailsDiv.appendChild(ratingDiv);
 
 			// add divs to fileDiv
 			fileDiv.appendChild(backgroundDiv);
@@ -231,32 +223,6 @@
 				// handle pagination
 				methods.handlePagination(options.workvars.uploadrDiv,options);
 			});
-		},
-
-		handleBadge: function(count, options) {
-			// increase upload count
-			options.workvars.uploading += count;
-			if (options.workvars.uploading < 0) options.workvars.uploading = 0;
-
-			var badgeDiv = options.workvars.badgeDiv,
-				uploading= options.workvars.uploading;
-
-			// set badge upload count
-			badgeDiv.html(uploading);
-
-			// add tooltip
-			var tooltipText = (uploading == 1) ? options.badgeTooltipSingular : options.badgeTooltipPlural;
-			badgeDiv.tipTip({content: tooltipText.replace("%d", uploading)});
-
-			// show / hide?
-			if (uploading < 1 && count < 0) {
-				badgeDiv.animate({opacity:0}, { duration: 1000 });
-			} else if (uploading == 1 && count > 0) {
-				badgeDiv.animate({opacity:1 }, { duration: 700 });
-
-				// remove old tooltip
-				badgeDiv.unbind('hover');
-			}
 		},
 
 		handlePagination: function(domObj, options) {
@@ -363,7 +329,7 @@
 				// iterate through files
 				$.each(files, function(index, file) {
 					// add file DOM elements
-					var fileAttrs = { fileName: ((file.name) ? file.name : file.fileName), fileSize: ((file.size) ? file.size : file.fileSize), startTime: new Date().getTime(), fileRating: 0, deletable: true }
+					var fileAttrs = { fileName: ((file.name) ? file.name : file.fileName), fileSize: ((file.size) ? file.size : file.fileSize), startTime: new Date().getTime(), deletable: true }
 					var fileDiv = methods.addFileElements(domObj, fileAttrs, options);
 
 					// and start file upload
@@ -376,9 +342,6 @@
 		
 		startUpload: function(file, fileAttrs, domObj, options) {
 			var status = "";
-
-			// increase upload counter
-			methods.handleBadge(1,options);
 
 			// call onStart event handler
 			options.onStart(fileAttrs);
@@ -407,9 +370,6 @@
 						tooltipText = tooltipText.replace('%s',options.allowedExtensions);
 						$('div.percentage', domObj).tipTip({content: tooltipText, maxWidth: 600});
 
-						// decrease upload counter
-						methods.handleBadge(-1, options);
-
 						// add a delete button to remove the file div
 						methods.addButton(domObj, 'delete', options.removeFromViewText, '', options, function() {
 							methods.removeFileElement(domObj, options);
@@ -437,9 +397,6 @@
 					var tooltipText = options.fileTooLargeText.replace('%s',methods.bytesToSize(((file.fileSize) ? file.fileSize : file.size)));
 						tooltipText = tooltipText.replace('%s',methods.bytesToSize(options.maxSize));
 					$('div.percentage', domObj).tipTip({content: tooltipText, maxWidth: 600});
-
-					// decrease upload counter
-					methods.handleBadge(-1, options);
 
 					// add a delete button to remove the file div
 					methods.addButton(domObj, 'delete', options.removeFromViewText, '', options, function() {
@@ -475,9 +432,6 @@
 
 				if (options.onProgress(fileAttrs, domObj, 100)) {
 					methods.onProgressHandler(domObj, fileAttrs, 100, options.labelFailed, '', options, true);
-
-					// decrease upload counter
-					methods.handleBadge(-1,options);
 				}
 
 				progressBar.addClass('failed');
@@ -538,12 +492,6 @@
 						// change percentage to 'done'
 						methods.onProgressHandler(domObj, fileAttrs, 100, options.labelDone, '', options);
 
-						// play notification sound?
-						methods.playNotification(options);
-
-						// decrease upload counter
-						methods.handleBadge(-1,options);
-
 						// add buttons
 						methods.addButtons(fileAttrs, domObj, options);
 					});
@@ -553,9 +501,6 @@
 					// whoops, we've got an error!
 					if (options.onProgress(fileAttrs, domObj, 100)) {
 						methods.onProgressHandler(domObj, fileAttrs, 100, options.labelFailed, response.statusText, options);
-
-						// decrease upload counter
-						methods.handleBadge(-1,options);
 					}
 
 					progressBar.addClass('failed');
@@ -623,7 +568,6 @@
 
 			// are we done uploading?
 			if (percentage >= 100) {
-				var ratingDiv = $('.rating', domObj);
 				var cancelButton = $('.cancel', domObj);
 
 				// set progress to complete
@@ -632,98 +576,12 @@
 				// remove button
 				cancelButton.hide();
 
-				// use rating?
-				if (options.rating && !failed) {
-					// remove speed div
-					speedDiv.hide();
-
-					// remove percentage div
-					percentageDiv.hide(1000, function() {
-						// if jquery tabs are used with an uploadr
-						// the times hide does not work. To make sure
-						// the element is hidden we have to explicitly
-						// call it again
-						$(this).hide();
-					});
-
-					// set the rating
-					methods.setRating(fileAttrs.fileRating, domObj);
-
-					// show the rating div
-					ratingDiv.show(500);
-
-					// add tooltip
-					if (fileAttrs.fileRatingText) {
-						ratingDiv.tipTip({content: fileAttrs.fileRatingText, maxWidth: 600});
-					}
-				}
-
 				// unset speed array to save memory
 				fileAttrs.speed = null;
 			}
 		},
-		
-		addVotingButtons: function(file, domObj, options) {
-			if (!options.voting) return true;
-
-			var votingDiv = $('.voting', domObj);
-			var likeDiv = document.createElement('div');
-				likeDiv.setAttribute('class', 'like');
-			var unlikeDiv = document.createElement('div');
-				unlikeDiv.setAttribute('class', 'unlike');
-			votingDiv[0].appendChild(likeDiv);
-			votingDiv[0].appendChild(unlikeDiv);
-
-			// add like and dislike handlers
-			$(likeDiv).bind('click.uploadr', function() {
-				options.onLike(file, domObj, function(rating) {
-					file.fileRating = rating;
-					if (!file.fileRating || file.fileRating < 0) file.fileRating = 0;
-					if (file.fileRating > 1) file.fileRating = 1;
-					methods.setRating(file.fileRating, domObj);
-				});
-			}).tipTip({content: options.likeText, maxWidth: 600});
-			$(unlikeDiv).bind('click.uploadr', function() {
-				options.onUnlike(file, domObj, function(rating) {
-					file.fileRating = rating;
-					if (!file.fileRating || file.fileRating < 0) file.fileRating = 0;
-					if (file.fileRating > 1) file.fileRating = 1;
-					methods.setRating(file.fileRating, domObj);
-				});
-			}).tipTip({content: options.unlikeText, maxWidth: 600});
-		},
 
 		addButtons: function(file, domObj, options) {
-			// add view, download and delete buttons
-			if (file.deletable && options.deletable) {
-				methods.addButton(domObj, 'delete', options.fileDeleteText, options.fileDeleteConfirm, options, function() {
-					if (options.onDelete(file, domObj)) methods.removeFileElement(domObj, options);
-				});
-			}
-			if (options.colorPicker) {
-				var colorPicker = methods.addButton(domObj, 'color', options.colorPickerText, '', options, function() {
-					var p = $('.progress', domObj);
-					var c = p.css('background-color');
-					methods.launchColorPicker(domObj, c, options, function(color) {
-						// change background color
-						p.css('background-color', color);
-
-						// and call color method
-						options.onChangeColor(file, domObj, color);
-					});
-				});
-			}
-			if (options.downloadable) {
-				methods.addButton(domObj, 'download', options.fileDownloadText, '', options, function() {
-					options.onDownload(file, domObj);
-				});
-			}
-			if (options.viewable) {
-				methods.addButton(domObj, 'view', options.fileViewText, '', options, function() {
-					options.onView(file, domObj);
-				});
-			}
-			methods.addVotingButtons(file, domObj, options);
 		},
 
 		addButton: function(domObj, type, tooltipText, confirmationText, options, handler) {
@@ -844,33 +702,6 @@
 				});
 			});
 		},
-
-		setRating: function(rating, domObj) {
-			var ratingDiv = $('.rating', domObj);
-			var children = ratingDiv.children();
-
-			// make sure rating lies between 0 and 1
-			if (rating < 0 || !rating) rating = 0;
-			if (rating > 1) rating = 1;
-
-			// determine the rating
-			var r = Math.round(rating * 10);
-			var rr = Math.round(r/2);
-
-			// add rating
-			for (var i=1; i<=5; i++) {
-				// empty, half or full rate?
-				var type = (rr >= i) ? ((rr==i && (r % 2)) ? 'half' : 'full') : 'empty';
-
-				if (children.size()) {
-					$(children[i-1])[0].setAttribute('class', type);
-				} else {
-					var starDiv = document.createElement('div');
-						starDiv.setAttribute('class', type);
-					ratingDiv[0].appendChild(starDiv);
-				}
-			}
-		},
 		
 		/**
 		 * return human readable file sizes
@@ -964,7 +795,7 @@
 					// iterate through files
 					$.each(this.files, function(index,file) {
 						// add file DOM elements
-						var fileAttrs = { fileName: (file.name) ? file.name : file.fileName, fileSize: (file.size) ? file.size : file.fileSize, startTime: new Date().getTime(), fileRating: 0, deletable: true }
+						var fileAttrs = { fileName: (file.name) ? file.name : file.fileName, fileSize: (file.size) ? file.size : file.fileSize, startTime: new Date().getTime(), deletable: true }
 						var fileDiv = methods.addFileElements(domObj, fileAttrs, options);
 
 						// and start file upload
@@ -992,8 +823,6 @@
 			likeText			: 'Click to like',
 			unlikeText			: 'Click to unlike',
 			colorPickerText		: 'Click to change background color',
-			badgeTooltipSingular: '%d file is still being uploaded...',
-			badgeTooltipPlural	: '%d files are still being uploaded...',
 			removeFromViewText	: 'Click to remove this aborted transfer from your view',
 			labelDone			: 'done',
 			labelFailed 		: 'failed',
@@ -1010,12 +839,6 @@
 			files				: [],
 			uploadField 		: true,
 			insertDirection 	: 'down',
-			rating 				: true,
-			voting 				: true,
-			colorPicker 		: true,
-			deletable 			: true,	// delete button visible?
-			downloadable 		: true,	// download button visible?
-			viewable 			: true,	// view button visible?
 			allowedExtensions   : "",   // comma ceperated list of allowed extensions, all if empty
 
 			// default sound effects
@@ -1042,7 +865,6 @@
 				deleteSoundEffect 			: null,
 				viewing						: 0,
 				uploading					: 0,
-				badgeDiv 					: null,
 				uploadrDiv 					: null,
 				paginationDiv 				: null,
 				pagesDiv 					: null,
@@ -1059,12 +881,6 @@
 			onSuccess			: function(file, domObj, callback) { callback(); },
 			onFailure			: function(file, domObj) { return true; },
 			onAbort             : function(file, domObj) { return true; },
-			onView              : function(file, domObj) { return true; },
-			onDownload          : function(file, domObj) { return true; },
-			onDelete            : function(file, domObj) { return true; },
-			onLike				: function(file, domObj, callback) { callback(file.fileRating + 0.1); },
-			onUnlike			: function(file, domObj, callback) { callback(file.fileRating - 0.1); },
-			onChangeColor		: function(file, domObj, color) { return true; }
 		};
 
 		// extend the jQuery options
@@ -1076,10 +892,6 @@
 
 			// add file upload field
 			if (options.uploadField) methods.addFileUploadField(obj,e,options);
-
-			// add badge
-			var badgeDiv = document.createElement('div');
-				badgeDiv.setAttribute('class', 'badge hidden');
 
 			// add placeholder text
 			var placeholderDiv = document.createElement('div');
@@ -1107,20 +919,17 @@
 			paginationDiv.appendChild(nextButtonDiv);
 
 			// append divs to uploadr element
-			e.appendChild(badgeDiv);
 			e.appendChild(filesDiv);
 			e.appendChild(paginationDiv);
 
 			// set workvars
 			options.workvars.uploadrDiv = e;
-			options.workvars.badgeDiv = $(badgeDiv);
 			options.workvars.paginationDiv = $(paginationDiv);
 			options.workvars.pagesDiv = $(pagesDiv);
 			options.workvars.nextButton = $(nextButtonDiv);
 			options.workvars.prevButton = $(prevButtonDiv);
 
 			// hide divs
-			options.workvars.badgeDiv.css({ opacity: 0 });
 			options.workvars.paginationDiv.hide();
 
 			// register event handlers

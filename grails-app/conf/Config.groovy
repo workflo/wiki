@@ -66,6 +66,10 @@ wiki {
     }
     thumbnails {
         dimensions {
+            '140x120' {
+                width = 140
+                height = 120
+            }
             '120x120' {
                 width = 120
                 height = 120

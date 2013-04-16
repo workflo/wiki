@@ -19,6 +19,7 @@
             <a class="btn" href="#" id="${elId}-btnBold" title="Fett"><i class="icon-bold"></i></a>
             <a class="btn" href="#" id="${elId}-btnItalic" title="Kursiv"><i class="icon-italic"></i></a> 
             <a class="btn" href="#" id="${elId}-btnQuote" title="Zitat">&gt;</a> 
+            <a class="btn" href="#" id="${elId}-btnCode" title="Code">$</a> 
         </div>
         <div class="btn-group">
             <a class="btn" href="#" id="${elId}-btnList" title="Aufzählung"><i class="icon-list"></i></a> 

@@ -61,6 +61,9 @@ grails.hibernate.cache.queries = false
 
 wiki {
     dataDir = 'data'
+    attachments {
+        maxSize = 32 * 1024 * 1024
+    }
     thumbnails {
         dimensions {
             '120x120' {

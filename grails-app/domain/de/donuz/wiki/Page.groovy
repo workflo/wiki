@@ -126,15 +126,20 @@ class Page
         final byte[] buffer = new byte[BUFF_SIZE];
         def outStream = new FileOutputStream(file)
         try {
+            long bytesWritten = 0;
             while (true) {
                 int amountRead = inStream.read(buffer);
-                
-                // TODO: Groesse beschraenken!
                 
                 if (amountRead == -1) {
                     break
                 }
                 outStream.write(buffer, 0, amountRead)
+                bytesWritten += amountRead
+                
+                if (bytesWritten > grailsApplication.config.wiki.attachments.maxSize) {
+                    file.delete()
+                    throw new IOException("Upload too large")
+                }
             }
         } finally {
             outStream.close()

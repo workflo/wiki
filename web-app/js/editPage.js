@@ -48,6 +48,10 @@ EditPage.prototype.init = function()
   	$('#' + this.bodyId + '-btnQuote').click(function() {
   		jqBody.encloseBy('> ', '');
   	});
+  	
+  	$('#' + this.bodyId + '-btnCode').click(function() {
+  		jqBody.encloseBy('`', '`');
+  	});
 
   	$('#' + this.bodyId + '-btnList').click(function() {
   		jqBody.encloseBy('* ', '');

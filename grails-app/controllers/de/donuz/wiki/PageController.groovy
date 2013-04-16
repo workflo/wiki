@@ -18,7 +18,7 @@ class PageController {
         [pageInstanceList: Page.list(params), pageInstanceTotal: Page.count()]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
     def create() {
         Long parentId = params.long('parent')
         def p = [title: 'Neue Seite',
@@ -28,7 +28,7 @@ class PageController {
         [pageInstance: new Page(p)]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
     def save() {
         Long parentId = params.long('parent')
         def p = [title: params.title,
@@ -67,7 +67,7 @@ class PageController {
         [pageInstance: pageInstance]
     }
 
-    @Secured(["hasRole('ROLE_USER')"])
+    @Secured(['ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
     def edit(Long id) {
         def pageInstance = Page.get(id)
         if (!pageInstance) {
@@ -82,7 +82,7 @@ class PageController {
         [pageInstance: pageInstance]
     }
 
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
     def update(Long id, Long version) {
         Page.lock(id)
         Page pageInstance = Page.get(id)
@@ -127,7 +127,7 @@ class PageController {
         redirect(action: "show", id: pageInstance.id)
     }
 
-    @Secured(['ROLE_USER'])
+    @Secured(['ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
     def delete(Long id) {
         def pageInstance = Page.get(id)
         if (!pageInstance) {

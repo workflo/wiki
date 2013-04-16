@@ -112,7 +112,8 @@ grails.plugins.springsecurity.rememberMe.persistent = true
 grails.plugins.springsecurity.rememberMe.persistentToken.domainClassName = 'de.donuz.wiki.PersistentLogin'
 grails.plugins.springsecurity.rememberMe.tokenValiditySeconds = 1209600 // 14 days
 grails.plugins.springsecurity.rememberMe.cookieName = 'WIKI_REMEMBER_ME'
-grails.plugins.springsecurity.rememberMe.useSecureCookie = true
+// Don't require HTTPS:
+grails.plugins.springsecurity.rememberMe.useSecureCookie = false
 grails.plugins.springsecurity.rememberMe.key = "SecretSaltForWikiRememberMeCookies"
 
 grails.plugins.springsecurity.roleHierarchy = '''

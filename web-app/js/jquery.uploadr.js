@@ -47,7 +47,7 @@
 		dragEnter: function(event, obj, domObj, hoverClass, options) {
 			obj.addClass(hoverClass);
 			methods.cancel(event, obj, domObj, hoverClass, options);
-			if (!options.workvars.gotFiles) $('.placeholder', obj).hide(); 
+//			if (!options.workvars.gotFiles) $('.placeholder', obj).hide(); 
 		},
 
 		dragLeave: function(event, obj, domObj, hoverClass, options) {
@@ -56,240 +56,13 @@
 			}
 			methods.cancel(event);
 			$('.placeholder', obj).html(options.placeholderText);
-			if (!options.workvars.gotFiles) $('.placeholder', obj).show(); 
-		},
-
-		addFile: function(domObj, file, options) {
-			// add dom element for this file
-			var fileDiv = methods.addFileElements(domObj, file, options, false);
-			var fileDomObj = $(fileDiv);
-
-			// got a color?
-			if (file.fileColor) {
-				// yes override default background color
-				$('.progress', fileDomObj).css('background-color', file.fileColor);
-			}
-
-			// and set to complete
-			methods.onProgressHandler(fileDomObj, file, 100, options.labelDone, '', options);
-
-			// hide the placeholder text
-			$('.placeholder', domObj).hide();
-
-			// set work var
-			options.workvars.gotFiles = true;
-
-			// add buttons
-			methods.addButtons(file, fileDomObj, options);
+//			if (!options.workvars.gotFiles) $('.placeholder', obj).show(); 
 		},
 
 		addFileElements: function(domObj, file, options, showPercentage) {
-			var fileNameDivName = (options.id + 'File' + options.workvars.files.length);
-
-			// add file div and progress bar
 			var fileDiv = document.createElement('div');
-			fileDiv.setAttribute('class', 'file');
-
-			// add a background bar div
-			var backgroundDiv = document.createElement('div');
-			backgroundDiv.setAttribute('class', 'background');
-
-			// add a progress bar div
-			var progressDiv = document.createElement('div');
-			progressDiv.setAttribute('class', 'progress');
-
-			// add fileinfo div
-			// - info
-			//    +- details
-			//    |     +- name
-			//    |     +- size
-			//    |     +- percentage
-			//    +- buttons
-			var infoDiv = document.createElement('div');
-				infoDiv.setAttribute('class', 'info');
-
-			var detailsDiv = document.createElement('div');
-				detailsDiv.setAttribute('class', 'details');
-			var fileButtonDiv = document.createElement('div');
-				fileButtonDiv.setAttribute('class', 'buttons');
-
-			var controlsDiv = document.createElement('div');
-				controlsDiv.setAttribute('class', 'controls');
-				controlsDiv.appendChild(fileButtonDiv);
-
-			var spinnerDiv = document.createElement('div');
-				spinnerDiv.setAttribute('class', 'spinner');
-				spinnerDiv.style.display = 'none';
-
-			var fileNameDiv = document.createElement('div');
-				fileNameDiv.setAttribute('class', 'name');
-				fileNameDiv.setAttribute('id', fileNameDivName);
-			var fileNameSpan = document.createElement('span');
-				fileNameSpan.setAttribute('class', 'fileName');
-				fileNameSpan.innerHTML = methods.shortenFileName(options.maxFileNameLength, file.fileName);
-
-			var fileSizeDiv = document.createElement('div');
-				fileSizeDiv.setAttribute('class', 'size');
-				fileSizeDiv.innerHTML = methods.bytesToSize(file.fileSize);
-
-			var filePercentageDiv = document.createElement('div');
-				filePercentageDiv.setAttribute('class', 'percentage');
-				filePercentageDiv.innerHTML = ((showPercentage) ? '0%' : options.labelDone);
-
-			var fileSpeedDiv = document.createElement('div');
-				fileSpeedDiv.setAttribute('class', 'speed');
-
-			// append child divs to infoDiv
-			infoDiv.appendChild(detailsDiv);
-			infoDiv.appendChild(controlsDiv);
-			infoDiv.appendChild(spinnerDiv);
-
-			fileNameDiv.appendChild(fileNameSpan);
-
-			detailsDiv.appendChild(fileNameDiv);
-			detailsDiv.appendChild(fileSizeDiv);
-			detailsDiv.appendChild(filePercentageDiv);
-			detailsDiv.appendChild(fileSpeedDiv);
-
-			// add divs to fileDiv
-			fileDiv.appendChild(backgroundDiv);
-			fileDiv.appendChild(progressDiv);
-			fileDiv.appendChild(infoDiv);
-
-			// append fileDiv to the parent element
-			var insertIn = $('.files',domObj)[0];
-
-			if (options.insertDirection == 'down') {
-				// add to bottom
-				insertIn.appendChild(fileDiv);
-			} else {
-				// add to top
-				insertIn.insertBefore(fileDiv,insertIn.childNodes[0]);
-			}
-
-			// attach tipTip tooltips
-			methods.addFileTooltip($('.fileName', $('#'+fileNameDivName)), file);
-
-			// add this file to the files array
-			if (options.insertDirection == 'up') {
-				options.workvars.files.unshift(fileDiv);
-				if (options.workvars.viewing > 0) options.workvars.viewing++;
-			} else {
-				if (!(options.workvars.files.length>0 && options.workvars.viewing < (options.workvars.files.length - 1))) {
-					options.workvars.viewing = options.workvars.files.length;
-				}
-
-				options.workvars.files.push(fileDiv);
-			}
-
-			// handle pagination
-			methods.handlePagination(domObj, options);
 
 			return fileDiv;
-		},
-
-		removeFileElement: function(domObj, options) {
-			var parent = domObj.parent();
-
-			// play delete sound effect
-			methods.playDelete(options);
-
-			// remove file
-			domObj.animate({height: '0px'}, 200, 'swing', function() {
-				// remove file from files array
-				for (var c = 0; c < options.workvars.files.length; c++) {
-					if (options.workvars.files[c] == domObj.get(0)) {
-						options.workvars.files.splice(c, 1);
-						break;
-					}
-				}
-
-				// change viewing parameter
-				if (options.insertDirection == 'up') {
-					options.workvars.viewing = (c > 0) ? c-1 : 0;
-				} else {
-					options.workvars.viewing = (c > (options.workvars.files.length - 1)) ? (options.workvars.files.length - 1) : c;
-				}
-
-				// remove element from DOM
-				domObj.remove();
-
-				// got any files left?
-				if ($('.info', parent).size() < 1) {
-					// show placeholder text
-					$('.placeholder', parent).show();
-				}
-
-				// handle pagination
-				methods.handlePagination(options.workvars.uploadrDiv,options);
-			});
-		},
-
-		handlePagination: function(domObj, options) {
-			var file, pages, page, v, from, to, prevButton, nextButton,pagesDiv,
-				paginationDiv = $('.pagination', domObj),
-				pageList = '',
-				files = options.workvars.files;
-
-			// unlimited?
-			if (options.maxVisible == 0) {
-				if (paginationDiv.is(':visible')) paginationDiv.hide();
-				return;
-			}
-
-			// check if we have more files than can be visible
-			if (files.length > options.maxVisible || paginationDiv.is(':visible')) {
-				pages	= Math.ceil( files.length / options.maxVisible );
-				page = Math.ceil( (options.workvars.viewing + 1) / options.maxVisible );
-
-				// calculate which files to show
-				to		= (( options.maxVisible * page) - 1);
-				from	= (to - options.maxVisible + 1);
-
-				for (v=0; v < files.length; v++) {
-					file = $(files[v]);
-
-					if (v < from || v > to) {
-						if (file.is(':visible')) {
-							file.hide();
-						}
-					} else if (file.is(':hidden')) {
-						file.show();
-					}
-				}
-			}
-
-			// show / hide controls?
-			if (!page || !pages || pages == 1) {
-				// hide pagination div
-				if (paginationDiv.is(':visible')) paginationDiv.hide();
-			} else {
-				prevButton = options.workvars.prevButton;
-				nextButton = options.workvars.nextButton;
-				pagesDiv = options.workvars.pagesDiv;
-
-				// show pagination div
-				if (paginationDiv.is(':hidden')) paginationDiv.show();
-
-				// create the page list
-				for (v = 1; v <= pages ; v++) {
-					pageList += "<li" + ((v == page) ? ' class="current"' : '' ) + ">" + v + "</li>";
-				}
-				pagesDiv.html(pageList);
-
-				// show/hide the pagination buttons
-				if (page == 1) {
-					prevButton.hide();
-					nextButton.show();
-				} else if (page == pages) {
-					prevButton.show();
-					nextButton.hide();
-				} else {
-					prevButton.show();
-					nextButton.show();
-				}
-			}
-
 		},
 
 		addFileTooltip: function(domObj, file) {
@@ -321,7 +94,7 @@
 			// iterate through files
 			if (typeof files !== "undefined") {
 				// hide the placeholder text
-				$('.placeholder', obj).hide();
+//				$('.placeholder', obj).hide();
 
 				// set work var
 				options.workvars.gotFiles = true;
@@ -370,11 +143,6 @@
 						tooltipText = tooltipText.replace('%s',options.allowedExtensions);
 						$('div.percentage', domObj).tipTip({content: tooltipText, maxWidth: 600});
 
-						// add a delete button to remove the file div
-						methods.addButton(domObj, 'delete', options.removeFromViewText, '', options, function() {
-							methods.removeFileElement(domObj, options);
-						});
-
 						// remember we failed
 						fileAttrs.failed = true;
 					}
@@ -398,11 +166,6 @@
 						tooltipText = tooltipText.replace('%s',methods.bytesToSize(options.maxSize));
 					$('div.percentage', domObj).tipTip({content: tooltipText, maxWidth: 600});
 
-					// add a delete button to remove the file div
-					methods.addButton(domObj, 'delete', options.removeFromViewText, '', options, function() {
-						methods.removeFileElement(domObj, options);
-					});
-
 					// remember we failed
 					fileAttrs.failed = true;
 				}
@@ -411,13 +174,6 @@
 
 				return false;
 			}
-
-			// add cancel button
-			methods.addButton(domObj, 'cancel', options.fileAbortText, options.fileAbortConfirm, options, function(e) {
-				// abort transfer
-				status = "abort";
-				xhr.abort();
-			});
 
 			// attach listeners
 			upload.addEventListener("progress", function(ev) {
@@ -435,11 +191,6 @@
 				}
 
 				progressBar.addClass('failed');
-
-				// add a delete button to remove the file div
-				methods.addButton(domObj, 'delete', options.removeFromViewText, '', options, function() {
-					methods.removeFileElement(domObj, options);
-				});
 			}, false);
 			
 			// attach abort listener
@@ -454,11 +205,6 @@
 
 				// callback after abort
 				options.onAbort(fileAttrs, domObj);
-
-				// add a delete button to remove the file div
-				methods.addButton(domObj, 'delete', options.removeFromViewText, '', options, function() {
-					methods.removeFileElement(domObj, options);
-				});
 			}, false);
 
 			// attach ready state listener
@@ -491,9 +237,6 @@
 
 						// change percentage to 'done'
 						methods.onProgressHandler(domObj, fileAttrs, 100, options.labelDone, '', options);
-
-						// add buttons
-						methods.addButtons(fileAttrs, domObj, options);
 					});
 				} else {
 					methods.playError(options);
@@ -568,139 +311,12 @@
 
 			// are we done uploading?
 			if (percentage >= 100) {
-				var cancelButton = $('.cancel', domObj);
-
 				// set progress to complete
 				progressBar.addClass('complete');
-
-				// remove button
-				cancelButton.hide();
 
 				// unset speed array to save memory
 				fileAttrs.speed = null;
 			}
-		},
-
-		addButtons: function(file, domObj, options) {
-		},
-
-		addButton: function(domObj, type, tooltipText, confirmationText, options, handler) {
-			var buttonDiv = document.createElement('div');
-				buttonDiv.setAttribute('class', 'button ' + type);
-				buttonDiv.setAttribute("style", "display: none");
-			var buttonsDiv = $('.buttons', domObj);
-
-			buttonsDiv[0].appendChild(buttonDiv);
-
-			var button = $('.' + type, domObj);
-
-			// add tooltip?
-			if (tooltipText) {
-				button.tipTip({content: tooltipText, maxWidth: 600});
-			}
-
-			// bind event handler
-			button.bind('click.uploadr', function(event) {
-			    if (!confirmationText || (confirm && confirm(confirmationText))) {
-					handler();
-			    }
-			});
-
-			button.show('slow');
-
-			return button;
-		},
-
-		launchColorPicker: function(domObj, currentColor, options, callback) {
-			var uploadr = domObj.parent().parent();
-			var cp = $('.pickr', uploadr);
-			var clickEventHandler = null;
-
-			// got a colorpickrdiv?
-			if (!cp.length) {
-				// no, create it
-				var arrowDiv = document.createElement('div');
-					arrowDiv.setAttribute('class', 'arrow');
-				var contentDiv = document.createElement('div');
-					contentDiv.setAttribute('class', 'content');
-				var ul = document.createElement('ul');
-
-				// add colors to the color picker
-				for (var i in options.colorPickerColors) {
-					var li = document.createElement('li');
-						ul.appendChild(li);
-						$(li).css('background-color', options.colorPickerColors[i]);
-				}
-
-				var colorPickerDiv = document.createElement('div');
-					colorPickerDiv.setAttribute('class', 'pickr');
-					contentDiv.appendChild(ul);
-					colorPickerDiv.appendChild(contentDiv);
-					colorPickerDiv.appendChild(arrowDiv);
-
-				// add it to the DOM and hide it
-				uploadr[0].appendChild(colorPickerDiv);
-
-				cp = $('.pickr', uploadr);
-				cp.hide();
-			}
-
-			// iterate through colors
-			var colors = $('li', cp);
-			for (var i=0; i<colors.size(); i++) {
-				var color = $(colors[i]);
-				var rgb = color.css('background-color');
-
-				// mark the current color
-				if (rgb == currentColor) {
-					color.addClass('current');
-				} else {
-					color.removeClass('current');
-				}
-
-				// remove previous bind
-				color.unbind('click.uploadr');
-
-				// and bind new handler
-				color.bind('click.uploadr', function() {
-					callback($(this).css('background-color'));
-
-					// unbind the document click event
-					$(document).unbind('click.uploadr');
-
-					// hide color picker
-					cp.hide(200);
-				});
-			}
-
-			// position color picker
-			var pos = domObj.position();
-			cp.css({
-				top: pos.top,
-				left: pos.left + domObj.width() + 2
-			});
-
-			// show color picker
-			cp.show(200, function() {
-				// when color picker animation is done,
-				// bind a click handler to the document
-				$(document).bind('click.uploadr', function(e) {
-					if (
-						e.pageX < cp.position().left ||
-						e.pageX > (cp.position().left + cp.width()) ||
-						e.pageY < cp.position().top ||
-						e.pageY > (cp.position().top + cp.height())
-						) {
-
-						// click was outside the color picker
-						// unbind the click handler
-						$(document).unbind('click.uploadr');
-
-						// and hide the color picker
-						cp.hide(200);
-					}
-				});
-			});
 		},
 		
 		/**
@@ -786,8 +402,8 @@
 			inputField.bind('change.uploadr', function() {
 				// iterate through files
 				if (typeof this.files !== "undefined") {
-					// hide the placeholder text
-					$('.placeholder', domObj).hide();
+//					// hide the placeholder text
+//					$('.placeholder', domObj).hide();
 
 					// set work var
 					options.workvars.gotFiles = true;
@@ -865,11 +481,7 @@
 				deleteSoundEffect 			: null,
 				viewing						: 0,
 				uploading					: 0,
-				uploadrDiv 					: null,
-				paginationDiv 				: null,
-				pagesDiv 					: null,
-				nextButton 					: null,
-				prevButton 					: null
+				uploadrDiv 					: null
 			},
 
 			// default event handlers
@@ -903,63 +515,17 @@
 				filesDiv.setAttribute('class', 'files '+defaults.dropableClass);
 				filesDiv.appendChild(placeholderDiv);
 
-			// add pagination div
-			var paginationDiv = document.createElement('div');
-				paginationDiv.setAttribute('class', 'pagination');
-
-			// add pagination elements
-			var prevButtonDiv = document.createElement('div');
-				prevButtonDiv.setAttribute('class', 'previous');
-			var pagesDiv = document.createElement('div');
-				pagesDiv.setAttribute('class', 'pages');
-			var nextButtonDiv = document.createElement('div');
-				nextButtonDiv.setAttribute('class', 'next');
-			paginationDiv.appendChild(prevButtonDiv);
-			paginationDiv.appendChild(pagesDiv);
-			paginationDiv.appendChild(nextButtonDiv);
-
 			// append divs to uploadr element
 			e.appendChild(filesDiv);
-			e.appendChild(paginationDiv);
 
 			// set workvars
 			options.workvars.uploadrDiv = e;
-			options.workvars.paginationDiv = $(paginationDiv);
-			options.workvars.pagesDiv = $(pagesDiv);
-			options.workvars.nextButton = $(nextButtonDiv);
-			options.workvars.prevButton = $(prevButtonDiv);
-
-			// hide divs
-			options.workvars.paginationDiv.hide();
 
 			// register event handlers
 			filesDiv.addEventListener('dragover', methods['dragOver'], false);
 			filesDiv.addEventListener('dragenter', function(event) { methods['dragEnter'](event, $(this), e, defaults.hoverClass, options); }, false);
 			filesDiv.addEventListener('dragleave', function(event) { methods['dragLeave'](event, $(this), e, defaults.hoverClass, options); }, false);
 			filesDiv.addEventListener('drop', function(event) { methods['drop'](event, $(this), e, defaults.hoverClass, options); }, false);
-
-			// register pagination event handlers
-			$(prevButtonDiv).bind('click.uploadr', function() {
-				options.workvars.viewing = options.workvars.viewing - options.maxVisible;
-				methods.handlePagination(e,options);
-			});
-			$(nextButtonDiv).bind('click.uploadr', function() {
-				options.workvars.viewing = options.workvars.viewing + options.maxVisible;
-				methods.handlePagination(e,options);
-			});
-			methods.handlePagination(e,options);
-
-			// got initial files?
-			if (options.files) {
-				for (var iterator in options.files) {
-					methods.addFile(e, options.files[iterator], options);
-				}
-			}
-
-			// initialize notification sounds?
-			if (options.notificationSound) options.workvars.notificationSoundEffect = new Audio(options.notificationSound);
-			if (options.errorSound) options.workvars.errorSoundEffect = new Audio(options.errorSound);
-			if (options.deleteSound) options.workvars.deleteSoundEffect = new Audio(options.deleteSound);
 		});
 	};
 })(jQuery);

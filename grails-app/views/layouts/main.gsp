@@ -52,8 +52,8 @@ body {
                     </ul>
                 </div>
 
-                <form class="navbar-search pull-right">
-                    <input type="text" class="span2 search-query" placeholder="Suchen">
+                <form class="navbar-search pull-right" action="${createLink(controller: 'searchable')}">
+                    <input type="text" name="q" class="span2 search-query" placeholder="Suchen" id="quicksearch">
                 </form>
             </div>
         </div>

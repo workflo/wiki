@@ -50,11 +50,15 @@
     <script language="JavaScript">
     jQuery('body').keypress(function (ev) {
     	if (ev.which == 101) {
-            window.location.href="${createLink(controller: 'page', action: 'edit', id: pageInstance?.id)}";
-            event.preventDefault();
+    	    if (!$('#quicksearch').is(":focus")) {
+    	        window.location.href="${createLink(controller: 'page', action: 'edit', id: pageInstance?.id)}";
+                event.preventDefault();
+    	    }
     	} else if (ev.which == 99) {
-            window.location.href="${createLink(controller: 'page', action: 'create', params: [parent: pageInstance?.id])}";
-            event.preventDefault();
+            if (!$('#quicksearch').is(":focus")) {
+                window.location.href="${createLink(controller: 'page', action: 'create', params: [parent: pageInstance?.id])}";
+                event.preventDefault();
+            }
     	}
     	//console.log(ev)
     });

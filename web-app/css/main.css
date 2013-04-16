@@ -31,15 +31,40 @@ textarea {
 	background-image: url(../images/spinner.gif);
 	background-repeat: no-repeat;
 	background-position: 55px 55px;
+}
+
+.image-selector .entry .image {
 	vertical-align: middle;
 	text-align: center;
+	z-index: 10;
 }
 
 .image-selector .entry .image-name {
 	text-align: center;
 	white-space: nowrap;
 	overflow-x: hidden;
+	z-index: 10;
 }
+
+.image-selector .entry .image-button {
+	-moz-border-radius: 11px;
+	border-radius: 11px;
+	box-shadow: 0 0 5px #aaa;
+	margin-top: -20px;
+	margin-left: -2px;
+	width: 22px;
+	height: 22px;
+	text-align: center;
+	background-color: #ccc;
+	z-index: 20;
+	position: absolute;
+	display: none;
+}
+
+.image-selector .entry .image-button-right {
+	margin-left: 120px;
+}
+
 
 .image-selector .image {
 	width: 140px;

@@ -1,6 +1,8 @@
 package de.donuz.wiki
 
+import grails.plugins.springsecurity.Secured
 import javax.servlet.http.HttpServletResponse;
+import grails.converters.JSON
 
 class AttachmentController {
     def download = {
@@ -36,6 +38,28 @@ class AttachmentController {
                 
         if (pageInstance != null) {
             [pageInstance: pageInstance, images: pageInstance.getImages()]
+        } else {
+            response.sendError(404, "Page ${params.pageId}")
+            return false
+        }
+    }
+    
+    
+    @Secured(['ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
+    def delete = {
+        Page pageInstance = Page.get(params.pageId)
+
+        if (pageInstance != null) {
+            final Attachment a = pageInstance.getAttachment(params.filename)
+            if (a) {
+                pageInstance.removeFromAttachments(a)
+                a.delete()
+                pageInstance.save(flush: true, failOnError: true)
+                render([deleted: true] as JSON)
+            } else {
+                response.sendError(404, "${params.filename}")
+                return false
+            }
         } else {
             response.sendError(404, "Page ${params.pageId}")
             return false

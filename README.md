@@ -9,7 +9,11 @@ wiki
         curl -s get.gvmtool.net | bash
         gvm install grails 2.2.1
 
-* Clone this repository
+* Open a new terminal window and clone this repository:
+
+        git clone git://github.com/workflo/wiki.git
+
 * Start app:
 
+        cd wiki
         grails run-app

@@ -24,7 +24,8 @@
 <link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
 <style>
 body {
-	/*padding-top: 60px;*/
+	padding-top: 60px;
+        padding-bottom: 40px;
 	/* 60px to make the container go all the way to the bottom of the topbar */
 }
 </style>

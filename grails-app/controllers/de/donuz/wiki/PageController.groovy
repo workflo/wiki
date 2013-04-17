@@ -145,7 +145,7 @@ class PageController {
                 message(code: 'page.label', default: 'Page'),
                 id
             ])
-            redirect(action: "list")
+            redirect(uri: '/')
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [

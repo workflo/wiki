@@ -15,7 +15,7 @@ class Page
     Person creator
     SortedSet attachments
     
-    boolean isWorkingCopy
+    //boolean isWorkingCopy
     Page originalPage
     
     // FIXME: Permissions

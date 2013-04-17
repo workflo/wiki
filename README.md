@@ -7,9 +7,12 @@ wiki
 * or use [Groovy Version Manager](https://github.com/gvmtool/gvm) to install Grails 2.2.1:
 
         curl -s get.gvmtool.net | bash
+
+* Open a new terminal window and install Grails:
+
         gvm install grails 2.2.1
 
-* Open a new terminal window and clone this repository:
+* Clone this repository:
 
         git clone git://github.com/workflo/wiki.git
 
@@ -17,3 +20,5 @@ wiki
 
         cd wiki
         grails run-app
+
+* Open your browser and go to http://localhost:8080/wiki

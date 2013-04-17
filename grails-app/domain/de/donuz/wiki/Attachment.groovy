@@ -4,7 +4,7 @@ import net.coobird.thumbnailator.Thumbnails
 
 import java.text.*
 
-class Attachment {
+class Attachment implements Comparable {
     def grailsApplication
     
     /** Filename of uploaded file. Unique within a Page. */
@@ -71,5 +71,10 @@ class Attachment {
     boolean isImage()
     {
         mimeType.startsWith('image/')
+    }
+    
+    int compareTo(other)
+    {
+        return name.compareTo(other.name)
     }
 }

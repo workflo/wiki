@@ -13,9 +13,10 @@ class Page
     Date dateCreated
     Date lastUpdated
     Person creator
+    SortedSet attachments
     
-    // boolean isWorkingCopy
-    // Page originalPage
+    boolean isWorkingCopy
+    Page originalPage
     
     // FIXME: Permissions
     //String readers
@@ -51,6 +52,7 @@ class Page
     static constraints = {
         title(blank:false, matches:/[^\/\\]+/)
         body(blank:true)
+        originalPage(blank: true)
     }
 
     String toString() {

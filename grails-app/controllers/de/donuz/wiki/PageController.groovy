@@ -21,9 +21,7 @@ class PageController {
     @Secured(['ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
     def create() {
         Long parentId = params.long('parent')
-        def p = [title: 'Neue Seite',
-            parent: Page.get(parentId)
-        ]
+        def p = [title: 'Neue Seite']
 
         [pageInstance: new Page(p)]
     }

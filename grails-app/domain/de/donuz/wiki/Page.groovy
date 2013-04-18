@@ -38,9 +38,7 @@ class Page
     }
     
     
-    static hasMany = [attachments: Attachment, versions: Version]//, children: Page]
-        
-    static belongsTo = [parent: Page]
+    static hasMany = [attachments: Attachment, versions: Version]
     
     static searchable = {
         only = ['body', 'title']
@@ -96,7 +94,7 @@ class Page
     
     static Collection<Page> getTopLevelPages()
     {
-        Page.findAllByParentIsNull([sort: 'title'])
+        Page.findAll([sort: 'title'])
     }
 
 

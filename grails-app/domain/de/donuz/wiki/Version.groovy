@@ -11,8 +11,6 @@ class Version
 
     static mapping = {
         body type:"text"
-        cache 'nonstrict-read-write'
-        cache usage:'read-only'
     }
 
     def getLatestVersion() {

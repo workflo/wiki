@@ -132,3 +132,7 @@ markdown.removeHtml = true
 markdown.smartQuotes = true
 markdown.smartPunctuation = true
 markdown.definitionLists = true
+
+grails.config.locations = [
+    "file:${userHome}/.${appName}-config.properties",
+    "file:${userHome}/.${appName}-config.groovy" ]

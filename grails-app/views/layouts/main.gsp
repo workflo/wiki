@@ -16,19 +16,11 @@
 <link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 <r:require modules="bootstrap" />
 <r:require modules="modernizr" />
+<r:require modules="application" />
 <g:layoutHead />
 <r:layoutResources />
 <jqui:resources />
 <jqueryui:javascript />
-<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
-<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
-<style>
-body {
-	padding-top: 60px;
-        padding-bottom: 40px;
-	/* 60px to make the container go all the way to the bottom of the topbar */
-}
-</style>
 </head>
 <body>
 
@@ -51,11 +43,18 @@ body {
                             <li><g:link controller="Logout">Logout</g:link></li>
                         </sec:ifLoggedIn>
                     </ul>
+
+                    <form class="navbar-search pull-right" action="${createLink(controller: 'searchable')}">
+                        <input type="text" name="q" class="span2 search-query" placeholder="Suchen" id="quicksearch">
+                    </form>
+
+                    <sec:ifLoggedIn>
+                        <p class="navbar-text pull-right">
+                            Hallo, <a href="#" class="navbar-link"><sec:username /></a>
+                        </p>
+                    </sec:ifLoggedIn>
                 </div>
 
-                <form class="navbar-search pull-right" action="${createLink(controller: 'searchable')}">
-                    <input type="text" name="q" class="span2 search-query" placeholder="Suchen" id="quicksearch">
-                </form>
             </div>
         </div>
     </div>
@@ -72,7 +71,6 @@ body {
     </div>
 
     <div class="footer" role="contentinfo"></div>
-    <g:javascript library="application" />
     <r:layoutResources />
 </body>
 </html>

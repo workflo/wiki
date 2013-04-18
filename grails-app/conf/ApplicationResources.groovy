@@ -1,5 +1,6 @@
 modules = {
     application {
+        resource url: 'css/main.css'
         resource url: 'js/application.js'
     }
     

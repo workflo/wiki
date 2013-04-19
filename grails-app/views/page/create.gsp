@@ -24,13 +24,12 @@
             </ul>
         </g:hasErrors>
         <g:form action="save">
-            <g:hiddenField name="parent" value="${pageInstance?.parent?.id}"/>
             <fieldset class="form">
                 <g:render template="form" model="[isNew: true]"/>
             </fieldset>
             <fieldset class="buttons">
                 <g:submitButton name="create" class="btn btn-success" value="Speichern" />
-                <g:link action="show" id="${pageInstance?.parent?.id}" class="btn">Abbrechen</g:link>
+                <g:link uri="/" class="btn">Abbrechen</g:link>
             </fieldset>
         </g:form>
         <g:render template="linkDialog" />

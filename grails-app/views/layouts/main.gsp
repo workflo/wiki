@@ -34,7 +34,7 @@
                 <div class="nav-collapse collapse">
                     <ul class="nav">
                         <sec:ifLoggedIn>
-                            <li><g:link controller="page" action="create" params="${[parent: pageInstance?.id]}">Neue Seite</g:link></li>
+                            <li><g:link controller="page" action="create">Neue Seite</g:link></li>
                         </sec:ifLoggedIn>
                         <sec:ifNotLoggedIn>
                             <li><g:link controller="Login">Login</g:link></li>

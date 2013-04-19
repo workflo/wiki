@@ -31,7 +31,7 @@ class PageController {
         Long parentId = params.long('parent')
         def p = [title: params.title,
             body: params.body,
-            parent: Page.get(parentId),
+            state: PageState.Public,
             creator: currentUser()
         ]
 

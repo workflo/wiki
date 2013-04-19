@@ -15,8 +15,8 @@ class Page
     Person creator
     SortedSet attachments
     
-    //boolean isWorkingCopy
     Page originalPage
+    Integer state = PageState.New
     
     // FIXME: Permissions
     //String readers
@@ -51,6 +51,7 @@ class Page
         title(blank:false, matches:/[^\/\\]+/)
         body(blank:true)
         originalPage(blank: true)
+        state nullable: true
     }
 
     String toString() {

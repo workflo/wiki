@@ -30,7 +30,7 @@
                 <g:render template="form" model="[isNew: true]"/>
             </fieldset>
             <fieldset class="buttons">
-                <g:submitButton name="create" class="btn btn-success" value="Speichern" />
+                <g:submitButton name="create" class="btn btn-success" value="Speichern" id="btn-save"/>
                 <g:link uri="/" class="btn">Abbrechen</g:link>
             </fieldset>
         </g:form>

@@ -18,10 +18,24 @@ EditPage.prototype.init = function()
         jqBody.focus();
   	});
 
+  	jQuery('body').keydown(function (ev) {
+  		if (ev.keyCode == 83 && ev.metaKey) {
+    		// Cmd + S
+            ev.preventDefault();
+            $('#btn-save').click();
+  		}
+  	});
   	jQuery('body').keypress(function (ev) {
     	if (ev.which == 91) {
+    		// '['
             ev.preventDefault();
             self.openLinkDialog();
+    	} else if (ev.keyCode == 19 && ev.ctrlKey) {
+    		// Ctrl + S
+            ev.preventDefault();
+            $('#btn-save').click();
+//    	} else {
+//    		console.log(ev);
     	}
     });
   	

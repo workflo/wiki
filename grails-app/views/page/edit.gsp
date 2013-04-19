@@ -26,7 +26,7 @@
             <g:hiddenField name="version" value="${pageInstance?.version}" />
             <g:render template="form" model="[isNew: false]" />
             <fieldset class="buttons">
-                <g:actionSubmit class="save" action="update" value="Speichern" class="btn btn-success" />
+                <g:actionSubmit class="save" action="update" value="Speichern" class="btn btn-success" id="btn-save" />
                 <g:link action="show" id="${pageInstance?.id}" class="btn">Abbrechen</g:link>
             </fieldset>
         </g:form>

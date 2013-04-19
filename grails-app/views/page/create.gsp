@@ -23,7 +23,9 @@
                 </g:eachError>
             </ul>
         </g:hasErrors>
-        <g:form action="save">
+        <g:form action="update">
+            <g:hiddenField name="id" value="${pageInstance?.id}" />
+            <g:hiddenField name="version" value="${pageInstance?.version}" />
             <fieldset class="form">
                 <g:render template="form" model="[isNew: true]"/>
             </fieldset>

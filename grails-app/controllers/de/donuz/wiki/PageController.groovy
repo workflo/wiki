@@ -20,36 +20,42 @@ class PageController {
 
     @Secured(['ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
     def create() {
-        Long parentId = params.long('parent')
-        def p = [title: 'Neue Seite']
-
-        [pageInstance: new Page(p)]
-    }
-
-    @Secured(['ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
-    def save() {
-        Long parentId = params.long('parent')
-        def p = [title: params.title,
-            body: params.body,
-            state: PageState.Public,
+        def p = [title: 'Neue Seite',
+            body: '',
+            state: PageState.New,
             creator: currentUser()
         ]
 
         Page pageInstance = new Page(p)
         
-        if (!pageInstance.save(flush: true)) {
-            render(view: "create", model: [pageInstance: pageInstance])
-            return
-        }
-        Version v = pageInstance.createVersion(currentUser())
-        pageInstance.save(flush: true)
+        pageInstance.save(flush: true, failOnError: true)
         
-        flash.message = message(code: 'default.created.message', args: [
-            message(code: 'page.label', default: 'Page'),
-            pageInstance.id
-        ])
-        redirect(action: "show", id: pageInstance.id)
+        [pageInstance: pageInstance]
     }
+
+//    @Secured(['ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
+//    def save() {
+//        def p = [title: params.title,
+//            body: params.body,
+//            state: PageState.Public,
+//            creator: currentUser()
+//        ]
+//
+//        Page pageInstance = new Page(p)
+//        
+//        if (!pageInstance.save(flush: true)) {
+//            render(view: "create", model: [pageInstance: pageInstance])
+//            return
+//        }
+//        Version v = pageInstance.createVersion(currentUser())
+//        pageInstance.save(flush: true)
+//        
+//        flash.message = message(code: 'default.created.message', args: [
+//            message(code: 'page.label', default: 'Page'),
+//            pageInstance.id
+//        ])
+//        redirect(action: "show", id: pageInstance.id)
+//    }
 
     def show(Long id) {
         def pageInstance = Page.get(id)
@@ -111,6 +117,7 @@ class PageController {
 
         pageInstance.title = params.title
         pageInstance.body = params.body
+        pageInstance.state = PageState.Public
         Version v = pageInstance.createVersion(currentUser())
 
         if (!pageInstance.save(flush: true)) {
@@ -138,7 +145,7 @@ class PageController {
         }
 
         try {
-            pageInstance.delete(flush: true)
+            pageInstance.moveToTrash()
             flash.message = message(code: 'default.deleted.message', args: [
                 message(code: 'page.label', default: 'Page'),
                 id

@@ -95,7 +95,7 @@ class Page
     
     static Collection<Page> getTopLevelPages()
     {
-        Page.findAll([sort: 'title'])
+        Page.findAll("FROM Page WHERE state=? ORDER BY title", [PageState.Public])
     }
 
 
@@ -162,5 +162,12 @@ class Page
     static String makeValidAttachmentName(String orig)
     {
         orig.replaceAll("[^a-zA-Z0-9.-_+]", '_')
+    }
+    
+    
+    public void moveToTrash()
+    {
+        state = PageState.Deleted
+        save(flush: true, failOnError: true)
     }
 }

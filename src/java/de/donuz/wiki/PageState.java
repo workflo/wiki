@@ -11,4 +11,5 @@ public interface PageState
     int New = 0;
     int Public = 1;
     int WorkingCopy = 2;
+    int Deleted = 3;
 }

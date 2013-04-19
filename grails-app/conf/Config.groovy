@@ -107,6 +107,14 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+           
+    // Set level for all application artifacts
+    info "grails.app"
+    
+    debug  'grails.app.jobs.de.donuz.wiki',
+           'grails.app.controllers.de.donuz.wiki',
+           'grails.app.services.de.donuz.wiki',
+           'grails.app.domain.de.donuz.wiki'
 }
 
 grails.plugins.twitterbootstrap.fixtaglib = true

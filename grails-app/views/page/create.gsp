@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="layout" content="main">
+<meta name="layout" content="fullwidth">
 <title>Neue Seite</title>
 <r:require modules="uploadr"/>
 <r:require modules="editPage" />

@@ -44,22 +44,3 @@
         </div>
     </div>
 </div>
-
-<script language="JavaScript">
-	$("#linkDialog-searchField")
-			.autocomplete(
-					{
-						minLength : 2,
-						source : "${createLink(controller: 'autoComplete', action: 'pageByTitle')}",
-						focus : function(event, ui) {
-							$("#linkDialog-searchField").val(ui.item.label);
-							return false;
-						},
-						select : function(event, ui) {
-							$('#linkDialog').modal('hide');
-							editPage.insertInternalLink(ui.item.value,
-									ui.item.label);
-							return false;
-						}
-					})
-</script>

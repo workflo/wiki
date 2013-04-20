@@ -28,7 +28,8 @@
 (function() {
     editPage = new EditPage("${pageInstance?.id}", "bodyField", {
     	imageGalleryUrl: "${createLink(controller: 'attachment', action: 'imageGallery')}",
-    	deleteAttachmentUrl: "${createLink(controller: 'attachment', action: 'delete')}"
+    	deleteAttachmentUrl: "${createLink(controller: 'attachment', action: 'delete')}",
+    	pageTitleAutoCompleteUrl: "${createLink(controller: 'autoComplete', action: 'pageByTitle')}"
     });
     editPage.init();
 })();

@@ -170,4 +170,10 @@ class Page
         state = PageState.Deleted
         save(flush: true, failOnError: true)
     }
+    
+    
+    public boolean isVisible()
+    {
+        return state == PageState.Public
+    }
 }

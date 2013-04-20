@@ -144,3 +144,18 @@ markdown.definitionLists = true
 grails.config.locations = [
     "file:${userHome}/.${appName}-config.properties",
     "file:${userHome}/.${appName}-config.groovy" ]
+
+searchable {
+    // Also see Searchble.groovy.
+    
+    /**
+     * The location of the Compass index
+     *
+     * Examples: "/home/app/compassindex", "ram://app-index" or null to use the default
+     *
+     * The default is "${user.home}/.grails/projects/${app.name}/searchable-index/${grails.env}"
+     */
+    compassConnection = new File(
+        "${wiki.dataDir}/searchable-index"
+    ).absolutePath
+}

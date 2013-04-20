@@ -59,7 +59,7 @@ class PageController {
 
     def show(Long id) {
         def pageInstance = Page.get(id)
-        if (!pageInstance) {
+        if (!pageInstance || !pageInstance.isVisible()) {
             flash.message = message(code: 'default.not.found.message', args: [
                 message(code: 'page.label', default: 'Page'),
                 id

@@ -163,6 +163,10 @@ EditPage.prototype.reloadImageGallery = function() {
 								console.log('ZOOM ' + name);
 								ev.preventDefault();
 							});
+							$('.image img', el).load(
+									function() {
+										$(el).removeClass('waiting');
+									});
 						});
 			});
 };

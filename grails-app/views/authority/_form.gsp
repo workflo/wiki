@@ -7,6 +7,6 @@
 		<g:message code="authority.authority.label" default="Authority" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="authority" required="" value="${authorityInstance?.authority}"/>
+	<g:textField name="authority" required="" value="${authorityInstance?.authority}" class="focus"/>
 </div>
 

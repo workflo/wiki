@@ -29,7 +29,7 @@ class AuthorityController {
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'authority.label', default: 'Authority'), authorityInstance.id])
-        redirect(action: "show", id: authorityInstance.id)
+        redirect(action: "list")
     }
 
     def show(Long id) {
@@ -41,46 +41,6 @@ class AuthorityController {
         }
 
         [authorityInstance: authorityInstance]
-    }
-
-    def edit(Long id) {
-        def authorityInstance = Authority.get(id)
-        if (!authorityInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'authority.label', default: 'Authority'), id])
-            redirect(action: "list")
-            return
-        }
-
-        [authorityInstance: authorityInstance]
-    }
-
-    def update(Long id, Long version) {
-        def authorityInstance = Authority.get(id)
-        if (!authorityInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'authority.label', default: 'Authority'), id])
-            redirect(action: "list")
-            return
-        }
-
-        if (version != null) {
-            if (authorityInstance.version > version) {
-                authorityInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                          [message(code: 'authority.label', default: 'Authority')] as Object[],
-                          "Another user has updated this Authority while you were editing")
-                render(view: "edit", model: [authorityInstance: authorityInstance])
-                return
-            }
-        }
-
-        authorityInstance.properties = params
-
-        if (!authorityInstance.save(flush: true)) {
-            render(view: "edit", model: [authorityInstance: authorityInstance])
-            return
-        }
-
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'authority.label', default: 'Authority'), authorityInstance.id])
-        redirect(action: "show", id: authorityInstance.id)
     }
 
     def delete(Long id) {

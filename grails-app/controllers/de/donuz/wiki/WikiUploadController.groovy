@@ -11,7 +11,7 @@ class WikiUploadController {
         render(plugin: 'uploadr', template: '/upload/warning')
     }
 
-    @Secured(['ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['ROLE_USERS', 'IS_AUTHENTICATED_REMEMBERED'])
     def handle = {
         def contentType = request.getHeader("Content-Type") as String
         def fileName = URLDecoder.decode(request.getHeader('X-File-Name'), 'UTF-8') as String

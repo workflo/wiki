@@ -14,15 +14,15 @@ class Page
     Date lastUpdated
     Person creator
     SortedSet attachments
-    
+
     Page originalPage
     Integer state = PageState.New
-    
+
     // FIXME: Permissions
     //String readers
     //String writers
-    //String admins 
-    
+    //String admins
+
     static mapping = {
         body type:"text"
         cache 'nonstrict-read-write'
@@ -36,17 +36,17 @@ class Page
             maxResults 1
         }
     }
-    
-    
+
+
     static hasMany = [attachments: Attachment, versions: Version]
-    
+
     static searchable = {
         only = ['body', 'title']
         title boost: 2.0
     }
 
     static transients = ['cacheService', "latestVersion"]
-    
+
     static constraints = {
         title(blank:false, matches:/[^\/\\]+/)
         body(blank:true)
@@ -57,7 +57,7 @@ class Page
     String toString() {
         "Page #${id} (${title})"
     }
-    
+
     Version createVersion(Person author) {
         def verObject = new Version(number: version, page: this, author: author)
         verObject.title = title
@@ -65,15 +65,15 @@ class Page
         addToVersions(verObject)
         return verObject
     }
-    
-//    def getLatestVersion() {
-//        Version.withCriteria(uniqueResult: true) {
-//            eq("current", this)
-//            order "number", "desc"
-//            maxResults 1
-//        }
-//    }
-    
+
+    //    def getLatestVersion() {
+    //        Version.withCriteria(uniqueResult: true) {
+    //            eq("current", this)
+    //            order "number", "desc"
+    //            maxResults 1
+    //        }
+    //    }
+
     Attachment getAttachment(String filename)
     {
         for (final Attachment a : attachments) {
@@ -81,25 +81,25 @@ class Page
         }
         return null
     }
-    
+
     List<Attachment> getImages()
     {
         final List<Attachment> list = new ArrayList<Attachment>(attachments.size())
-        
+
         for (final Attachment a : attachments) {
             if (a.isImage()) list.add(a)
         }
-        
+
         return list;
     }
-    
+
     static Collection<Page> getTopLevelPages()
     {
         Page.findAll("FROM Page WHERE state=? ORDER BY title", [PageState.Public])
     }
 
 
-    Attachment createAttachment(String name, String contentType, InputStream inStream) 
+    Attachment createAttachment(String name, String contentType, InputStream inStream)
     {
         final String origName = name
         final File dataDir = new File(grailsApplication.config.wiki.dataDir)
@@ -110,9 +110,9 @@ class Page
         final File todaysDir = new File(attachmentDir, relFilename)
         final File file = new File(todaysDir, uuid)
         relFilename += "${File.separator}${uuid}"
-        
-        name = makeValidAttachmentName(name)        
-        
+
+        name = makeValidAttachmentName(name)
+
         String mimeType = contentType?:''
         int pos = mimeType.indexOf(';')
         if (pos > -1) mimeType = mimeType.substring(0, pos).trim().toLowerCase()
@@ -130,13 +130,13 @@ class Page
             long bytesWritten = 0;
             while (true) {
                 int amountRead = inStream.read(buffer);
-                
+
                 if (amountRead == -1) {
                     break
                 }
                 outStream.write(buffer, 0, amountRead)
                 bytesWritten += amountRead
-                
+
                 if (bytesWritten > grailsApplication.config.wiki.attachments.maxSize) {
                     file.delete()
                     throw new IOException("Upload too large")
@@ -145,7 +145,7 @@ class Page
         } finally {
             outStream.close()
         }
-        
+
         Attachment a = getAttachment(name)
         if (a) {
             a.file = relFilename
@@ -155,25 +155,43 @@ class Page
             addToAttachments(a)
         }
 
-        return a        
+        return a
     }
-    
-    
+
+
     static String makeValidAttachmentName(String orig)
     {
         orig.replaceAll("[^a-zA-Z0-9.-_+]", '_')
     }
-    
-    
+
+
     public void moveToTrash()
     {
         state = PageState.Deleted
         save(flush: true, failOnError: true)
     }
-    
-    
+
+
     public boolean isVisible()
     {
         return state == PageState.Public
+    }
+
+
+    def afterUpdate() 
+    {
+        switch (state) {
+            case PageState.Public:
+            index()
+            break
+            default:
+            unindex()
+        }
+    }
+
+
+    def afterDelete() 
+    {
+        unindex();
     }
 }

@@ -4,7 +4,7 @@
 
 <div class="controls controls-row">
     <label class="span1" for="title"><g:message code="page.title.label" default="Title" /></label>
-    <g:textField class="input-block-level ${isNew ? 'focus select' : ''}" name="title" pattern="${pageInstance.constraints.title.matches}" required=""
+    <g:textField class="input-block-level ${isNew ? 'focus select' : ''}" name="title" tabindex="1" pattern="${pageInstance.constraints.title.matches}" required=""
         value="${pageInstance?.title}" />
 </div>
 
@@ -30,5 +30,5 @@
             <a class="btn" href="#" id="${elId}-btnImage" title="Bild einfügen..."><i class="icon-picture"></i></a>
         </div>
     </div>
-    <g:textArea name="body" class="${isNew ? '' : 'focus'}" value="${pageInstance?.body}" style="width: 100%;" rows="30" id="${elId}" />
+    <g:textArea name="body" class="${isNew ? '' : 'focus'}" value="${pageInstance?.body}" tabindex="2" style="width: 100%;" rows="30" id="${elId}" />
 </div>

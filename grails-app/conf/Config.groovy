@@ -132,7 +132,7 @@ grails.plugins.springsecurity.rememberMe.useSecureCookie = false
 grails.plugins.springsecurity.rememberMe.key = "SecretSaltForWikiRememberMeCookies"
 
 grails.plugins.springsecurity.roleHierarchy = '''
-   ROLE_ADMIN > ROLE_USER
+   ROLE_ADMINISTRATORS > ROLE_USERS
 '''
 
 markdown.tables = true

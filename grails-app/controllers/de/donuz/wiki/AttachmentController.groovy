@@ -45,7 +45,7 @@ class AttachmentController {
     }
     
     
-    @Secured(['ROLE_USER', 'IS_AUTHENTICATED_REMEMBERED'])
+    @Secured(['ROLE_USERS', 'IS_AUTHENTICATED_REMEMBERED'])
     def delete = {
         Page pageInstance = Page.get(params.pageId)
 

@@ -15,7 +15,9 @@
  */
 package de.donuz.wiki
 
+import grails.plugins.springsecurity.Secured
 import org.compass.core.engine.SearchEngineQueryParseException
+
 
 /**
  * Basic web interface for Grails Searchable Plugin 
@@ -42,6 +44,7 @@ class SearchableController {
     /**
      * Perform a bulk index of every searchable object in the database
      */
+    @Secured(['ROLE_ADMINISTRATORS', 'IS_AUTHENTICATED_REMEMBERED'])
     def indexAll = {
         Thread.start {
             searchableService.index()
@@ -52,6 +55,7 @@ class SearchableController {
     /**
      * Perform a bulk index of every searchable object in the database
      */
+    @Secured(['ROLE_ADMINISTRATORS', 'IS_AUTHENTICATED_REMEMBERED'])
     def unindexAll = {
         searchableService.unindex()
         render("unindexAll done")

@@ -21,7 +21,7 @@
                 <g:each in="${authorityInstanceList}" status="i" var="authorityInstance">
                     <tr>
                         <td>${fieldValue(bean: authorityInstance, field: "authority")}</td>
-                        <td><g:form style="margin: 0px;">
+                        <td><g:form style="margin: 0px;" method="post">
                                 <g:hiddenField name="id" value="${authorityInstance?.id}" />
                                 <g:actionSubmit class="btn btn-danger btn-small" action="delete" id="${authorityInstance?.id}"
                                     value="${message(code: 'default.button.delete.label', default: 'Delete')}"

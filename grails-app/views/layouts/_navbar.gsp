@@ -7,7 +7,7 @@
                 <sec:ifLoggedIn>
                     <li><g:link controller="page" action="create">Neue Seite</g:link></li>
                 </sec:ifLoggedIn>
-                <sec:ifAllGranted roles="ROLE_ADMIN">
+                <sec:ifAllGranted roles="ROLE_ADMINISTRATORS">
                     <li class="dropdown"><a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Administration<b
                             class="caret"></b></a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">

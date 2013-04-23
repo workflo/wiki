@@ -18,10 +18,20 @@ class Page
     Page originalPage
     Integer state = PageState.New
 
+    Space space
+    
     // FIXME: Permissions
     //String readers
     //String writers
     //String admins
+
+    static constraints = {
+        title blank:false, matches:/[^\/\\]+/
+        body blank:true
+        originalPage blank: true
+        state nullable: true
+        space nullable: true    // FIXME: muss spaeter weg!
+    }
 
     static mapping = {
         body type:"text"
@@ -29,29 +39,15 @@ class Page
         title index: "title_idx"
     }
 
-    def getLatestVersion() {
-        Version.withCriteria(uniqueResult: true) {
-            eq("current", this)
-            order "number", "desc"
-            maxResults 1
-        }
-    }
-
-
+    static belongsTo = [space: Space]
+    
     static hasMany = [attachments: Attachment, versions: Version]
+
+    static transients = ['cacheService', "latestVersion"]
 
     static searchable = {
         only = ['body', 'title']
         title boost: 2.0
-    }
-
-    static transients = ['cacheService', "latestVersion"]
-
-    static constraints = {
-        title(blank:false, matches:/[^\/\\]+/)
-        body(blank:true)
-        originalPage(blank: true)
-        state nullable: true
     }
 
     String toString() {
@@ -64,6 +60,14 @@ class Page
         verObject.body = body
         addToVersions(verObject)
         return verObject
+    }
+
+    def getLatestVersion() {
+        Version.withCriteria(uniqueResult: true) {
+            eq("current", this)
+            order "number", "desc"
+            maxResults 1
+        }
     }
 
     //    def getLatestVersion() {
@@ -178,19 +182,19 @@ class Page
     }
 
 
-    def afterUpdate() 
+    def afterUpdate()
     {
         switch (state) {
             case PageState.Public:
-            index()
-            break
+                index()
+                break
             default:
-            unindex()
+                unindex()
         }
     }
 
 
-    def afterDelete() 
+    def afterDelete()
     {
         unindex();
     }

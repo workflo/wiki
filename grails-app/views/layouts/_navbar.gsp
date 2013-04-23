@@ -5,7 +5,9 @@
             <ul class="nav" role="navigation">
                 <li><g:link uri="/"><strong>Wiki</strong></g:link></li>
                 <sec:ifLoggedIn>
-                    <li><g:link controller="page" action="create">Neue Seite</g:link></li>
+                    <g:if test="${spaceInstance}">
+                    <li><g:link controller="page" action="create" params="${[space: spaceInstance?.name]}">Neue Seite</g:link></li>
+                    </g:if>
                 </sec:ifLoggedIn>
                 <sec:ifAllGranted roles="ROLE_ADMINISTRATORS">
                     <li class="dropdown"><a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Administration<b

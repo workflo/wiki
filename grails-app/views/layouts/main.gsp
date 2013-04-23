@@ -28,6 +28,7 @@
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span3">
+                <g:render template="/layouts/spaces" />
                 <g:render template="/layouts/doctree" />
             </div>
             <div class="span7">

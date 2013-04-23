@@ -20,17 +20,29 @@ class PageController {
 
     @Secured(['ROLE_USERS', 'IS_AUTHENTICATED_REMEMBERED'])
     def create() {
+        Space spaceInstance = Space.byName(params.space)
+
+        if (!spaceInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [
+                message(code: 'page.label', default: 'Space'),
+                params.space
+            ])
+            redirect(uri: '/')
+            return
+        }
+        
         def p = [title: 'Neue Seite',
             body: '',
             state: PageState.New,
-            creator: currentUser()
+            creator: currentUser(),
+            space: spaceInstance
         ]
 
         Page pageInstance = new Page(p)
         
         pageInstance.save(flush: true, failOnError: true)
         
-        [pageInstance: pageInstance]
+        [pageInstance: pageInstance, spaceInstance: pageInstance.space]
     }
 
 //    @Secured(['ROLE_USERS', 'IS_AUTHENTICATED_REMEMBERED'])
@@ -64,11 +76,11 @@ class PageController {
                 message(code: 'page.label', default: 'Page'),
                 id
             ])
-            redirect(action: "list")
+            redirect(uri: '/')
             return
         }
 
-        [pageInstance: pageInstance]
+        [pageInstance: pageInstance, spaceInstance: pageInstance.space]
     }
 
     @Secured(['ROLE_USERS', 'IS_AUTHENTICATED_REMEMBERED'])
@@ -79,11 +91,11 @@ class PageController {
                 message(code: 'page.label', default: 'Page'),
                 id
             ])
-            redirect(action: "list")
+            redirect(uri: '/')
             return
         }
 
-        [pageInstance: pageInstance]
+        [pageInstance: pageInstance, spaceInstance: pageInstance.space]
     }
 
     @Secured(['ROLE_USERS', 'IS_AUTHENTICATED_REMEMBERED'])
@@ -121,7 +133,7 @@ class PageController {
         Version v = pageInstance.createVersion(currentUser())
 
         if (!pageInstance.save(flush: true)) {
-            render(view: "edit", model: [pageInstance: pageInstance])
+            render(view: "edit", model: [pageInstance: pageInstance, spaceInstance: pageInstance.space])
             return
         }
         

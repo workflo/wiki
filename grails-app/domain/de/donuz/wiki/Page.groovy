@@ -20,21 +20,16 @@ class Page
 
     Space space
     
-    // FIXME: Permissions
-    //String readers
-    //String writers
-    //String admins
-
     static constraints = {
-        title blank:false, matches:/[^\/\\]+/
-        body blank:true
+        title blank: false, matches: /[^\/\\]+/
+        body blank: true
         originalPage blank: true
-        state nullable: true
-        space nullable: true    // FIXME: muss spaeter weg!
+        state nullable: false
+        space nullable: false
     }
 
     static mapping = {
-        body type:"text"
+        body type: "text"
         cache 'nonstrict-read-write'
         title index: "title_idx"
     }

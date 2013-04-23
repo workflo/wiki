@@ -11,13 +11,26 @@ class Space
     String admins
 
     static constraints = {
-        name nullable: true, blank: true//, unique: true, matches: /[a-zA-Z0-9_-]+/
+        name blank: false, unique: true, matches: /[a-zA-Z0-9_-]+/
         title blank: false
     }
 
     static mapping = {
+        name index: "space_name_idx"
         readers type: "text"
         writers type: "text"
         admins type: "text"
+    }
+    
+    
+    static getVisibleSpaces()
+    {
+        Space.list(sort: 'title')    
+    }
+    
+    
+    static byName(String name)
+    {
+        Space.findByName(name)
     }
 }

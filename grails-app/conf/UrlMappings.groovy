@@ -13,6 +13,10 @@ class UrlMappings {
             controller = 'page'
             action = 'show'
         }
+        "/s/$name" {
+            controller = 'space'
+            action = 'homepage'
+        }
 
         "/$controller/$action?/$id?"{
 			constraints {

@@ -1,12 +1,13 @@
 package de.donuz.wiki
 
 import grails.plugins.springsecurity.Secured
+import grails.converters.JSON
 
 
 class SpaceController
 {
     def list() {
-        
+        render(template: 'list', model: [spaceInstances: Space.getVisibleSpaces()])
     }
     
     
@@ -20,5 +21,16 @@ class SpaceController
         }
 
         [spaceInstance: spaceInstance]
+    }
+    
+    
+    @Secured(['ROLE_ADMINISTRATORS', 'IS_AUTHENTICATED_REMEMBERED'])
+    def ajaxCreate() {
+        def spaceInstance = new Space(name: params.name, title: params.title, readers: '', writers: '', admins: '')
+        if (spaceInstance.save(flush: true)) {
+            render([name: params.name, title: params.title, success: true] as JSON)
+        } else {
+            render([name: params.name, title: params.title, success: false, message: spaceInstance.errors] as JSON)
+        }        
     }
 }

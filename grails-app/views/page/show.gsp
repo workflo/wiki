@@ -49,13 +49,11 @@
     </div>
     <script language="JavaScript">
     jQuery('body').keypress(function (ev) {
-    	if (ev.which == 101) {
-    	    if (!$('#quicksearch').is(":focus")) {
+        if (!$('input').is(":focus")) { 
+            if (ev.which == 101) {
     	        window.location.href="${createLink(controller: 'page', action: 'edit', id: pageInstance?.id)}";
                 event.preventDefault();
-    	    }
-    	} else if (ev.which == 99) {
-            if (!$('#quicksearch').is(":focus")) {
+            } else if (ev.which == 99) {
                 window.location.href="${createLink(controller: 'page', action: 'create', params: [parent: pageInstance?.id])}";
                 event.preventDefault();
             }

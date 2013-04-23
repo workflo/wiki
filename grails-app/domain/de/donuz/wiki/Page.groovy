@@ -92,11 +92,6 @@ class Page
         return list;
     }
 
-    static Collection<Page> getTopLevelPages()
-    {
-        Page.findAll("FROM Page WHERE state=? ORDER BY title", [PageState.Public])
-    }
-
 
     Attachment createAttachment(String name, String contentType, InputStream inStream)
     {

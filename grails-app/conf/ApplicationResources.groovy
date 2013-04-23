@@ -2,10 +2,11 @@ modules = {
     application {
         resource url: 'css/main.css'
         resource url: 'js/application.js'
+        resource url: 'js/spaces.js'
     }
     
     editPage {
-        resource url: 'js/editPage.js', disposition: 'head'
+        resource url: 'js/editPage.js'
     }
     
     uploadr {

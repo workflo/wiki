@@ -1,5 +1,7 @@
 package de.donuz.wiki
 
+import java.util.Collection;
+
 class Space
 {
     String name
@@ -32,5 +34,10 @@ class Space
     static byName(String name)
     {
         Space.findByName(name)
+    }
+
+    Collection<Page> getTopPages()
+    {
+        Page.findAll("FROM Page WHERE state=? AND space=? ORDER BY title", [PageState.Public, this], [max: 20])
     }
 }

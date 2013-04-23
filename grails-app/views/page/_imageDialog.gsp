@@ -25,12 +25,12 @@
 </div>
 
 <script language="JavaScript">
-(function() {
+$(document).ready(function() {
     editPage = new EditPage("${pageInstance?.id}", "bodyField", {
     	imageGalleryUrl: "${createLink(controller: 'attachment', action: 'imageGallery')}",
     	deleteAttachmentUrl: "${createLink(controller: 'attachment', action: 'delete')}",
     	pageTitleAutoCompleteUrl: "${createLink(controller: 'autoComplete', action: 'pageByTitle')}"
     });
     editPage.init();
-})();
+});
 </script>

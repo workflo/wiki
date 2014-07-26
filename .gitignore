@@ -6,6 +6,7 @@
 /*.tmproj
 /ivy*
 /eclipse
+/target-eclipse
 
 # HSQL database files
 /prodDb.*

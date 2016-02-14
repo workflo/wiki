@@ -1,7 +1,7 @@
 package de.donuz.wiki
 
-import grails.plugins.springsecurity.Secured
-import javax.servlet.http.HttpServletResponse;
+import grails.plugin.springsecurity.annotation.Secured
+import javax.servlet.http.HttpServletResponse
 import grails.converters.JSON
 
 class AttachmentController {

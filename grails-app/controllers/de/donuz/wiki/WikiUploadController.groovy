@@ -1,6 +1,7 @@
 package de.donuz.wiki
 
-import grails.plugins.springsecurity.Secured
+import grails.plugins.springsecurity.*
+import grails.plugin.springsecurity.annotation.Secured
 import grails.converters.JSON
 import hungry.wombat.*;
 
@@ -12,7 +13,8 @@ class WikiUploadController {
     }
 
     @Secured(['ROLE_USERS', 'IS_AUTHENTICATED_REMEMBERED'])
-    def handle = {
+    def handle()
+    {
         def contentType = request.getHeader("Content-Type") as String
         def fileName = URLDecoder.decode(request.getHeader('X-File-Name'), 'UTF-8') as String
         def fileSize = request.getHeader('X-File-Size') as Long

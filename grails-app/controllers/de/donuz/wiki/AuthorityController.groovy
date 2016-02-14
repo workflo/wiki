@@ -1,6 +1,6 @@
 package de.donuz.wiki
 
-import grails.plugins.springsecurity.Secured
+import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.dao.DataIntegrityViolationException
 
 @Secured(['ROLE_ADMINISTRATORS', 'IS_AUTHENTICATED_REMEMBERED'])

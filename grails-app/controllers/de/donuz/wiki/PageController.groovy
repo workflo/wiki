@@ -1,6 +1,6 @@
 package de.donuz.wiki
 
-import grails.plugins.springsecurity.Secured
+import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.dao.DataIntegrityViolationException
 
 class PageController {

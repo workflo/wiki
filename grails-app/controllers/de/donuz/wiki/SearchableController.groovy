@@ -15,8 +15,8 @@
  */
 package de.donuz.wiki
 
-import grails.plugins.springsecurity.Secured
-import org.compass.core.engine.SearchEngineQueryParseException
+import grails.plugin.springsecurity.annotation.Secured
+//import org.compass.core.engine.SearchEngineQueryParseException
 
 
 /**
@@ -34,17 +34,17 @@ class SearchableController {
         if (!params.q?.trim()) {
             return [:]
         }
-        try {
+//        try {
             return [searchResult: searchableService.search(params.q, params)]
-        } catch (SearchEngineQueryParseException ex) {
-            return [parseException: true]
-        }
+//        } catch (SearchEngineQueryParseException ex) {
+//            return [parseException: true]
+//        }
     }
 
     /**
      * Perform a bulk index of every searchable object in the database
      */
-    @Secured(['ROLE_ADMINISTRATORS', 'IS_AUTHENTICATED_REMEMBERED'])
+//    @Secured(['ROLE_ADMINISTRATORS', 'IS_AUTHENTICATED_REMEMBERED'])
     def indexAll = {
         Thread.start {
             searchableService.index()
@@ -55,7 +55,7 @@ class SearchableController {
     /**
      * Perform a bulk index of every searchable object in the database
      */
-    @Secured(['ROLE_ADMINISTRATORS', 'IS_AUTHENTICATED_REMEMBERED'])
+//    @Secured(['ROLE_ADMINISTRATORS', 'IS_AUTHENTICATED_REMEMBERED'])
     def unindexAll = {
         searchableService.unindex()
         render("unindexAll done")
